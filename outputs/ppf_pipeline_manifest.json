@@ -1,0 +1,42 @@
+{
+  "run_id": "20260215T225632Z",
+  "run_utc": "2026-02-15T22:56:32+00:00",
+  "project_root": "/home/vboxuser/work/ppf/ppf/temp/ppf",
+  "args": {
+    "half_life_days": 120,
+    "concentration_alpha": 1.0,
+    "verbose": true
+  },
+  "counts": {
+    "transactions": 25,
+    "assets": 18,
+    "mapping_rows": 18,
+    "unmapped_assets": 18,
+    "unmapped_fraction": 1.0,
+    "impulses_rows": 0,
+    "scores_rows": 0
+  },
+  "outputs": {
+    "asset_to_sector_mapping": "/home/vboxuser/work/ppf/ppf/temp/ppf/data/reference/asset_to_sector_mapping.csv",
+    "sector_to_etf": "/home/vboxuser/work/ppf/ppf/temp/ppf/data/reference/sector_to_etf.csv",
+    "transactions_enriched": "/home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv",
+    "asset_universe": "/home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv",
+    "assets_unmapped": "/home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv",
+    "impulses_sector_daily": "/home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_impulses_sector_daily.csv",
+    "scores_sector_daily": "/home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_scores_sector_daily.csv"
+  },
+  "warnings": [
+    {
+      "kind": "scores_empty",
+      "reason": "No mapped BUY/SELL impulses (mapping likely empty or all UNMAPPED)."
+    }
+  ],
+  "errors": [],
+  "stage_seconds": {
+    "ensure_reference_files": 0.0005366802215576172,
+    "enrich_transactions": 0.027858257293701172,
+    "load_and_apply_mapping": 0.013083457946777344,
+    "build_impulses_sector_daily": 0.0036916732788085938,
+    "compute_ppf_sector_daily": 0.0003046989440917969
+  }
+}

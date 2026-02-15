@@ -1,0 +1,44 @@
+{
+  "run_id": "20260215T165511Z",
+  "run_utc": "2026-02-15T16:55:14+00:00",
+  "project_root": "/home/vboxuser/work/ppf/ppf/temp/ppf",
+  "raw_dir": "/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw",
+  "outputs_dir": "/home/vboxuser/work/ppf/ppf/temp/ppf/outputs",
+  "counts": {
+    "pdf_pages_rows": 23,
+    "ptr_transactions_rows": 25,
+    "scan_transactions_rows": 0,
+    "annual_table_rows": 36
+  },
+  "inputs": {
+    "pdf_files": [
+      "eFD_ Annual Report for 2025 - Tache, Joseph.pdf",
+      "eFD_ Print Periodic Transaction Report.pdf",
+      "eFD_ Print Periodic Transaction Report2.pdf",
+      "eFD_ Print Periodic Transaction Report3.pdf",
+      "eFD_ Print Report5.pdf"
+    ],
+    "ptr_pdfs": [
+      "eFD_ Print Periodic Transaction Report.pdf",
+      "eFD_ Print Periodic Transaction Report2.pdf",
+      "eFD_ Print Periodic Transaction Report3.pdf"
+    ],
+    "annual_pdfs": [
+      "eFD_ Annual Report for 2025 - Tache, Joseph.pdf"
+    ],
+    "scan_pngs": []
+  },
+  "outputs": {
+    "pdf_pages_csv": "/home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/pdf_pages.csv",
+    "annual_table_rows_csv": "/home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/annual_table_rows.csv",
+    "transactions_csv": "/home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_transactions_unified.csv",
+    "superset_csv": "/home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_superset_all_records.csv",
+    "log_file": "/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_extract.log"
+  },
+  "optional_deps": {
+    "opencv": true,
+    "pytesseract": true
+  },
+  "warnings": [],
+  "errors": []
+}
