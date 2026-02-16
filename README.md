@@ -54,6 +54,18 @@ ppf/
 │ ├── ppf_scores_sector_snapshot_latest.csv
 │ └── ppf_pipeline_manifes
 
+Get Senate data:
+python ppf_crawl_efd.py --project-root . --since 2012-01-01 --max-pages 0 --download
+
+Get Congress data:
+python ppf_house_crawler.py \
+  --project-root . \
+  --filing-year 2026 \
+  --prefix-range A Z \
+  --download-pdfs \
+  --headless
+
+
 How To Run
 Step 1 – Parse Disclosure PDFs
 

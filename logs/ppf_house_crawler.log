@@ -1,0 +1,353 @@
+2026-02-16T21:20:17Z | INFO    | ppf_house_crawler | Logging initialized
+2026-02-16T21:20:17Z | INFO    | ppf_house_crawler | log_file=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_house_crawler.log
+2026-02-16T21:20:17Z | INFO    | ppf_house_crawler | CLI args: project_root=/home/vboxuser/work/ppf/ppf/temp/ppf filing_year=2026 prefixes=A..Z download_pdfs=True headless=True verbose=True
+2026-02-16T21:20:17Z | INFO    | ppf_house_crawler | Loaded existing index: /home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/house_fd_index.csv rows=54
+2026-02-16T21:20:17Z | INFO    | ppf_house_crawler | Crawler start: filing_year=2026 prefixes=26 download_pdfs=True headless=True
+2026-02-16T21:20:18Z | INFO    | ppf_house_crawler | Prefix [1/26] prefix=A year=2026
+2026-02-16T21:20:19Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:20:20Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:20:20Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:20:20Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:20:20Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=A
+2026-02-16T21:20:21Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=A
+2026-02-16T21:20:21Z | DEBUG   | ppf_house_crawler | Found 1 PDF anchors on page
+2026-02-16T21:20:21Z | INFO    | ppf_house_crawler | Results extracted: prefix=A pdf_links=1
+2026-02-16T21:20:21Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033751.pdf
+2026-02-16T21:20:21Z | INFO    | ppf_house_crawler | Prefix summary prefix=A new_rows=0 downloaded=0 failed_downloads=0
+2026-02-16T21:20:21Z | INFO    | ppf_house_crawler | Prefix [2/26] prefix=B year=2026
+2026-02-16T21:20:22Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:20:23Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:20:23Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:20:23Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:20:23Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=B
+2026-02-16T21:20:24Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=B
+2026-02-16T21:20:24Z | DEBUG   | ppf_house_crawler | Found 4 PDF anchors on page
+2026-02-16T21:20:24Z | INFO    | ppf_house_crawler | Results extracted: prefix=B pdf_links=4
+2026-02-16T21:20:24Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033714.pdf
+2026-02-16T21:20:24Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033903.pdf
+2026-02-16T21:20:24Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033800.pdf
+2026-02-16T21:20:24Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033927.pdf
+2026-02-16T21:20:24Z | INFO    | ppf_house_crawler | Prefix summary prefix=B new_rows=0 downloaded=0 failed_downloads=0
+2026-02-16T21:20:24Z | INFO    | ppf_house_crawler | Prefix [3/26] prefix=C year=2026
+2026-02-16T21:20:26Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:20:26Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:20:26Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:20:26Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:20:26Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=C
+2026-02-16T21:20:27Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=C
+2026-02-16T21:20:28Z | DEBUG   | ppf_house_crawler | Found 6 PDF anchors on page
+2026-02-16T21:20:28Z | INFO    | ppf_house_crawler | Results extracted: prefix=C pdf_links=6
+2026-02-16T21:20:28Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033762.pdf
+2026-02-16T21:20:28Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033983.pdf
+2026-02-16T21:20:28Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033754.pdf
+2026-02-16T21:20:28Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033813.pdf
+2026-02-16T21:20:28Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033889.pdf
+2026-02-16T21:20:28Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033840.pdf
+2026-02-16T21:20:28Z | INFO    | ppf_house_crawler | Prefix summary prefix=C new_rows=0 downloaded=0 failed_downloads=0
+2026-02-16T21:20:28Z | INFO    | ppf_house_crawler | Prefix [4/26] prefix=D year=2026
+2026-02-16T21:20:29Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:20:29Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:20:29Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:20:29Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:20:29Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=D
+2026-02-16T21:20:30Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=D
+2026-02-16T21:20:30Z | DEBUG   | ppf_house_crawler | Found 9 PDF anchors on page
+2026-02-16T21:20:30Z | INFO    | ppf_house_crawler | Results extracted: prefix=D pdf_links=9
+2026-02-16T21:20:30Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033737.pdf
+2026-02-16T21:20:30Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033921.pdf
+2026-02-16T21:20:30Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033766.pdf
+2026-02-16T21:20:30Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033835.pdf
+2026-02-16T21:20:30Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033744.pdf
+2026-02-16T21:20:30Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033713.pdf
+2026-02-16T21:20:30Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033747.pdf
+2026-02-16T21:20:30Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033780.pdf
+2026-02-16T21:20:30Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033981.pdf
+2026-02-16T21:20:30Z | INFO    | ppf_house_crawler | Prefix summary prefix=D new_rows=0 downloaded=0 failed_downloads=0
+2026-02-16T21:20:30Z | INFO    | ppf_house_crawler | Prefix [5/26] prefix=E year=2026
+2026-02-16T21:20:32Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:20:32Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:20:32Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:20:32Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:20:32Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=E
+2026-02-16T21:20:33Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=E
+2026-02-16T21:20:33Z | DEBUG   | ppf_house_crawler | Found 0 PDF anchors on page
+2026-02-16T21:20:33Z | INFO    | ppf_house_crawler | Results extracted: prefix=E pdf_links=0
+2026-02-16T21:20:33Z | INFO    | ppf_house_crawler | Prefix summary prefix=E new_rows=0 downloaded=0 failed_downloads=0
+2026-02-16T21:20:33Z | INFO    | ppf_house_crawler | Prefix [6/26] prefix=F year=2026
+2026-02-16T21:20:34Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:20:35Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:20:35Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:20:35Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:20:35Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=F
+2026-02-16T21:20:35Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=F
+2026-02-16T21:20:36Z | DEBUG   | ppf_house_crawler | Found 5 PDF anchors on page
+2026-02-16T21:20:36Z | INFO    | ppf_house_crawler | Results extracted: prefix=F pdf_links=5
+2026-02-16T21:20:36Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033732.pdf
+2026-02-16T21:20:36Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033858.pdf
+2026-02-16T21:20:36Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/8221321.pdf
+2026-02-16T21:20:36Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033734.pdf
+2026-02-16T21:20:36Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033947.pdf
+2026-02-16T21:20:36Z | INFO    | ppf_house_crawler | Prefix summary prefix=F new_rows=0 downloaded=0 failed_downloads=0
+2026-02-16T21:20:36Z | INFO    | ppf_house_crawler | Prefix [7/26] prefix=G year=2026
+2026-02-16T21:20:37Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:20:38Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:20:38Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:20:38Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:20:38Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=G
+2026-02-16T21:20:39Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=G
+2026-02-16T21:20:39Z | DEBUG   | ppf_house_crawler | Found 2 PDF anchors on page
+2026-02-16T21:20:39Z | INFO    | ppf_house_crawler | Results extracted: prefix=G pdf_links=2
+2026-02-16T21:20:39Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033756.pdf
+2026-02-16T21:20:39Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/financial-pdfs/2026/30025659.pdf
+2026-02-16T21:20:39Z | INFO    | ppf_house_crawler | Prefix summary prefix=G new_rows=0 downloaded=0 failed_downloads=0
+2026-02-16T21:20:39Z | INFO    | ppf_house_crawler | Prefix [8/26] prefix=H year=2026
+2026-02-16T21:20:40Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:20:41Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:20:41Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:20:41Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:20:41Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=H
+2026-02-16T21:20:42Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=H
+2026-02-16T21:20:42Z | DEBUG   | ppf_house_crawler | Found 2 PDF anchors on page
+2026-02-16T21:20:42Z | INFO    | ppf_house_crawler | Results extracted: prefix=H pdf_links=2
+2026-02-16T21:20:42Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033829.pdf
+2026-02-16T21:20:42Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033661.pdf
+2026-02-16T21:20:42Z | INFO    | ppf_house_crawler | Prefix summary prefix=H new_rows=0 downloaded=0 failed_downloads=0
+2026-02-16T21:20:42Z | INFO    | ppf_house_crawler | Prefix [9/26] prefix=I year=2026
+2026-02-16T21:20:43Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:20:44Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:20:44Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:20:44Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:20:44Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=I
+2026-02-16T21:20:45Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=I
+2026-02-16T21:20:45Z | DEBUG   | ppf_house_crawler | Found 0 PDF anchors on page
+2026-02-16T21:20:45Z | INFO    | ppf_house_crawler | Results extracted: prefix=I pdf_links=0
+2026-02-16T21:20:45Z | INFO    | ppf_house_crawler | Prefix summary prefix=I new_rows=0 downloaded=0 failed_downloads=0
+2026-02-16T21:20:45Z | INFO    | ppf_house_crawler | Prefix [10/26] prefix=J year=2026
+2026-02-16T21:20:46Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:20:46Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:20:46Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:20:46Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:20:46Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=J
+2026-02-16T21:20:47Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=J
+2026-02-16T21:20:47Z | DEBUG   | ppf_house_crawler | Found 3 PDF anchors on page
+2026-02-16T21:20:48Z | INFO    | ppf_house_crawler | Results extracted: prefix=J pdf_links=3
+2026-02-16T21:20:48Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033739.pdf
+2026-02-16T21:20:48Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033789.pdf
+2026-02-16T21:20:48Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033803.pdf
+2026-02-16T21:20:48Z | INFO    | ppf_house_crawler | Prefix summary prefix=J new_rows=0 downloaded=0 failed_downloads=0
+2026-02-16T21:20:48Z | INFO    | ppf_house_crawler | Prefix [11/26] prefix=K year=2026
+2026-02-16T21:20:49Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:20:49Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:20:49Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:20:49Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:20:49Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=K
+2026-02-16T21:20:50Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=K
+2026-02-16T21:20:50Z | DEBUG   | ppf_house_crawler | Found 5 PDF anchors on page
+2026-02-16T21:20:51Z | INFO    | ppf_house_crawler | Results extracted: prefix=K pdf_links=5
+2026-02-16T21:20:51Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033821.pdf
+2026-02-16T21:20:51Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033946.pdf
+2026-02-16T21:20:51Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033763.pdf
+2026-02-16T21:20:51Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033991.pdf
+2026-02-16T21:20:51Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/8221322.pdf
+2026-02-16T21:20:51Z | INFO    | ppf_house_crawler | Prefix summary prefix=K new_rows=0 downloaded=0 failed_downloads=0
+2026-02-16T21:20:51Z | INFO    | ppf_house_crawler | Prefix [12/26] prefix=L year=2026
+2026-02-16T21:20:52Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:20:53Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:20:53Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:20:53Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:20:53Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=L
+2026-02-16T21:20:54Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=L
+2026-02-16T21:20:54Z | DEBUG   | ppf_house_crawler | Found 4 PDF anchors on page
+2026-02-16T21:20:54Z | INFO    | ppf_house_crawler | Results extracted: prefix=L pdf_links=4
+2026-02-16T21:20:54Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033814.pdf
+2026-02-16T21:20:54Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033857.pdf
+2026-02-16T21:20:54Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20030977.pdf
+2026-02-16T21:20:54Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033738.pdf
+2026-02-16T21:20:54Z | INFO    | ppf_house_crawler | Prefix summary prefix=L new_rows=0 downloaded=0 failed_downloads=0
+2026-02-16T21:20:54Z | INFO    | ppf_house_crawler | Prefix [13/26] prefix=M year=2026
+2026-02-16T21:20:56Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:20:56Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:20:56Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:20:56Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:20:56Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=M
+2026-02-16T21:20:57Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=M
+2026-02-16T21:20:57Z | DEBUG   | ppf_house_crawler | Found 12 PDF anchors on page
+2026-02-16T21:20:57Z | INFO    | ppf_house_crawler | Results extracted: prefix=M pdf_links=12
+2026-02-16T21:20:57Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033695.pdf
+2026-02-16T21:20:57Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/8221326.pdf
+2026-02-16T21:20:57Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033736.pdf
+2026-02-16T21:20:57Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033964.pdf
+2026-02-16T21:20:57Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033956.pdf
+2026-02-16T21:20:57Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033881.pdf
+2026-02-16T21:20:57Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033746.pdf
+2026-02-16T21:20:57Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033856.pdf
+2026-02-16T21:20:57Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033830.pdf
+2026-02-16T21:20:57Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033928.pdf
+2026-02-16T21:20:57Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033989.pdf
+2026-02-16T21:20:57Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033760.pdf
+2026-02-16T21:20:57Z | INFO    | ppf_house_crawler | Prefix summary prefix=M new_rows=0 downloaded=0 failed_downloads=0
+2026-02-16T21:20:57Z | INFO    | ppf_house_crawler | Prefix [14/26] prefix=N year=2026
+2026-02-16T21:20:58Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:20:59Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:20:59Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:20:59Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:20:59Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=N
+2026-02-16T21:21:00Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=N
+2026-02-16T21:21:00Z | DEBUG   | ppf_house_crawler | Found 1 PDF anchors on page
+2026-02-16T21:21:00Z | INFO    | ppf_house_crawler | Results extracted: prefix=N pdf_links=1
+2026-02-16T21:21:00Z | DEBUG   | ppf_house_crawler | Skip existing url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033654.pdf
+2026-02-16T21:21:00Z | INFO    | ppf_house_crawler | Prefix summary prefix=N new_rows=0 downloaded=0 failed_downloads=0
+2026-02-16T21:21:00Z | INFO    | ppf_house_crawler | Prefix [15/26] prefix=O year=2026
+2026-02-16T21:21:01Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:21:02Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:21:02Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:21:02Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:21:02Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=O
+2026-02-16T21:21:03Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=O
+2026-02-16T21:21:03Z | DEBUG   | ppf_house_crawler | Found 0 PDF anchors on page
+2026-02-16T21:21:03Z | INFO    | ppf_house_crawler | Results extracted: prefix=O pdf_links=0
+2026-02-16T21:21:03Z | INFO    | ppf_house_crawler | Prefix summary prefix=O new_rows=0 downloaded=0 failed_downloads=0
+2026-02-16T21:21:03Z | INFO    | ppf_house_crawler | Prefix [16/26] prefix=P year=2026
+2026-02-16T21:21:05Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:21:05Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:21:05Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:21:05Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:21:05Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=P
+2026-02-16T21:21:06Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=P
+2026-02-16T21:21:06Z | DEBUG   | ppf_house_crawler | Found 4 PDF anchors on page
+2026-02-16T21:21:06Z | INFO    | ppf_house_crawler | Results extracted: prefix=P pdf_links=4
+2026-02-16T21:21:06Z | DEBUG   | ppf_house_crawler | Downloading PDF attempt=1/3 url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033725.pdf -> /home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033725_Pelosi_Hon.._Nancy_CA11_2026_Original.pdf
+2026-02-16T21:21:06Z | INFO    | ppf_house_crawler | Downloaded PDF ok bytes=83364 sha256=8ddf562e6179 path=/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033725_Pelosi_Hon.._Nancy_CA11_2026_Original.pdf
+2026-02-16T21:21:06Z | DEBUG   | ppf_house_crawler | Downloading PDF attempt=1/3 url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033815.pdf -> /home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033815_Peters_Hon.._Scott_H._CA50_2026_Original.pdf
+2026-02-16T21:21:07Z | INFO    | ppf_house_crawler | Downloaded PDF ok bytes=67766 sha256=efea06dedad5 path=/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033815_Peters_Hon.._Scott_H._CA50_2026_Original.pdf
+2026-02-16T21:21:07Z | DEBUG   | ppf_house_crawler | Downloading PDF attempt=1/3 url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033804.pdf -> /home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033804_Pfluger_Hon.._August_Lee_II._TX11_2026_Original.pdf
+2026-02-16T21:21:07Z | INFO    | ppf_house_crawler | Downloaded PDF ok bytes=66381 sha256=03539b5fcf7d path=/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033804_Pfluger_Hon.._August_Lee_II._TX11_2026_Original.pdf
+2026-02-16T21:21:07Z | DEBUG   | ppf_house_crawler | Downloading PDF attempt=1/3 url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033920.pdf -> /home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033920_Pfluger_Hon.._August_Lee_II._TX11_2026_Original.pdf
+2026-02-16T21:21:07Z | INFO    | ppf_house_crawler | Downloaded PDF ok bytes=65600 sha256=8405e3124c67 path=/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033920_Pfluger_Hon.._August_Lee_II._TX11_2026_Original.pdf
+2026-02-16T21:21:07Z | DEBUG   | ppf_house_crawler | Appended 4 rows to /home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/house_fd_index.csv
+2026-02-16T21:21:07Z | INFO    | ppf_house_crawler | Prefix summary prefix=P new_rows=4 downloaded=4 failed_downloads=0
+2026-02-16T21:21:07Z | INFO    | ppf_house_crawler | Prefix [17/26] prefix=Q year=2026
+2026-02-16T21:21:08Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:21:08Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:21:08Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:21:08Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:21:08Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=Q
+2026-02-16T21:21:09Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=Q
+2026-02-16T21:21:09Z | DEBUG   | ppf_house_crawler | Found 0 PDF anchors on page
+2026-02-16T21:21:09Z | INFO    | ppf_house_crawler | Results extracted: prefix=Q pdf_links=0
+2026-02-16T21:21:09Z | INFO    | ppf_house_crawler | Prefix summary prefix=Q new_rows=0 downloaded=0 failed_downloads=0
+2026-02-16T21:21:09Z | INFO    | ppf_house_crawler | Prefix [18/26] prefix=R year=2026
+2026-02-16T21:21:11Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:21:12Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:21:12Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:21:12Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:21:12Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=R
+2026-02-16T21:21:12Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=R
+2026-02-16T21:21:13Z | DEBUG   | ppf_house_crawler | Found 2 PDF anchors on page
+2026-02-16T21:21:13Z | INFO    | ppf_house_crawler | Results extracted: prefix=R pdf_links=2
+2026-02-16T21:21:13Z | DEBUG   | ppf_house_crawler | Downloading PDF attempt=1/3 url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033758.pdf -> /home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033758_Rouzer_Hon.._David_NC07_2026_Original.pdf
+2026-02-16T21:21:13Z | INFO    | ppf_house_crawler | Downloaded PDF ok bytes=64438 sha256=b8aa269f46aa path=/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033758_Rouzer_Hon.._David_NC07_2026_Original.pdf
+2026-02-16T21:21:13Z | DEBUG   | ppf_house_crawler | Downloading PDF attempt=1/3 url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033759.pdf -> /home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033759_Rouzer_Hon.._David_NC07_2026_Original.pdf
+2026-02-16T21:21:13Z | INFO    | ppf_house_crawler | Downloaded PDF ok bytes=65181 sha256=0a5861a182db path=/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033759_Rouzer_Hon.._David_NC07_2026_Original.pdf
+2026-02-16T21:21:13Z | DEBUG   | ppf_house_crawler | Appended 2 rows to /home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/house_fd_index.csv
+2026-02-16T21:21:13Z | INFO    | ppf_house_crawler | Prefix summary prefix=R new_rows=2 downloaded=2 failed_downloads=0
+2026-02-16T21:21:13Z | INFO    | ppf_house_crawler | Prefix [19/26] prefix=S year=2026
+2026-02-16T21:21:14Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:21:14Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:21:14Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:21:14Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:21:14Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=S
+2026-02-16T21:21:15Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=S
+2026-02-16T21:21:16Z | DEBUG   | ppf_house_crawler | Found 3 PDF anchors on page
+2026-02-16T21:21:16Z | INFO    | ppf_house_crawler | Results extracted: prefix=S pdf_links=3
+2026-02-16T21:21:16Z | DEBUG   | ppf_house_crawler | Downloading PDF attempt=1/3 url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033755.pdf -> /home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033755_Sanchez_Hon.._Linda_T._CA38_2026_Original.pdf
+2026-02-16T21:21:16Z | INFO    | ppf_house_crawler | Downloaded PDF ok bytes=62262 sha256=65a88363bf42 path=/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033755_Sanchez_Hon.._Linda_T._CA38_2026_Original.pdf
+2026-02-16T21:21:16Z | DEBUG   | ppf_house_crawler | Downloading PDF attempt=1/3 url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033705.pdf -> /home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033705_Shreve_Hon.._Jefferson_IN06_2026_Original.pdf
+2026-02-16T21:21:16Z | INFO    | ppf_house_crawler | Downloaded PDF ok bytes=67813 sha256=a031c9c6244b path=/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033705_Shreve_Hon.._Jefferson_IN06_2026_Original.pdf
+2026-02-16T21:21:16Z | DEBUG   | ppf_house_crawler | Downloading PDF attempt=1/3 url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033709.pdf -> /home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033709_Shreve_Hon.._Jefferson_IN06_2026_Original.pdf
+2026-02-16T21:21:16Z | INFO    | ppf_house_crawler | Downloaded PDF ok bytes=65856 sha256=577dba8dd8eb path=/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033709_Shreve_Hon.._Jefferson_IN06_2026_Original.pdf
+2026-02-16T21:21:16Z | DEBUG   | ppf_house_crawler | Appended 3 rows to /home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/house_fd_index.csv
+2026-02-16T21:21:16Z | INFO    | ppf_house_crawler | Prefix summary prefix=S new_rows=3 downloaded=3 failed_downloads=0
+2026-02-16T21:21:16Z | INFO    | ppf_house_crawler | Prefix [20/26] prefix=T year=2026
+2026-02-16T21:21:18Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:21:18Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:21:18Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:21:18Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:21:18Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=T
+2026-02-16T21:21:19Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=T
+2026-02-16T21:21:19Z | DEBUG   | ppf_house_crawler | Found 3 PDF anchors on page
+2026-02-16T21:21:19Z | INFO    | ppf_house_crawler | Results extracted: prefix=T pdf_links=3
+2026-02-16T21:21:19Z | DEBUG   | ppf_house_crawler | Downloading PDF attempt=1/3 url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033845.pdf -> /home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033845_Taylor_Hon.._David_J._OH02_2026_Original.pdf
+2026-02-16T21:21:19Z | INFO    | ppf_house_crawler | Downloaded PDF ok bytes=93481 sha256=79fcabea3f68 path=/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033845_Taylor_Hon.._David_J._OH02_2026_Original.pdf
+2026-02-16T21:21:19Z | DEBUG   | ppf_house_crawler | Downloading PDF attempt=1/3 url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033916.pdf -> /home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033916_Taylor_Hon.._David_J._OH02_2026_Original.pdf
+2026-02-16T21:21:19Z | INFO    | ppf_house_crawler | Downloaded PDF ok bytes=114702 sha256=6ad5da396619 path=/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033916_Taylor_Hon.._David_J._OH02_2026_Original.pdf
+2026-02-16T21:21:19Z | DEBUG   | ppf_house_crawler | Downloading PDF attempt=1/3 url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033918.pdf -> /home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033918_Taylor_Hon.._David_J._OH02_2026_Original.pdf
+2026-02-16T21:21:19Z | INFO    | ppf_house_crawler | Downloaded PDF ok bytes=90111 sha256=c8ee6c549d0b path=/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033918_Taylor_Hon.._David_J._OH02_2026_Original.pdf
+2026-02-16T21:21:19Z | DEBUG   | ppf_house_crawler | Appended 3 rows to /home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/house_fd_index.csv
+2026-02-16T21:21:19Z | INFO    | ppf_house_crawler | Prefix summary prefix=T new_rows=3 downloaded=3 failed_downloads=0
+2026-02-16T21:21:19Z | INFO    | ppf_house_crawler | Prefix [21/26] prefix=U year=2026
+2026-02-16T21:21:21Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:21:22Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:21:22Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:21:22Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:21:22Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=U
+2026-02-16T21:21:23Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=U
+2026-02-16T21:21:23Z | DEBUG   | ppf_house_crawler | Found 0 PDF anchors on page
+2026-02-16T21:21:23Z | INFO    | ppf_house_crawler | Results extracted: prefix=U pdf_links=0
+2026-02-16T21:21:23Z | INFO    | ppf_house_crawler | Prefix summary prefix=U new_rows=0 downloaded=0 failed_downloads=0
+2026-02-16T21:21:23Z | INFO    | ppf_house_crawler | Prefix [22/26] prefix=V year=2026
+2026-02-16T21:21:24Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:21:25Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:21:25Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:21:25Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:21:25Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=V
+2026-02-16T21:21:25Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=V
+2026-02-16T21:21:26Z | DEBUG   | ppf_house_crawler | Found 0 PDF anchors on page
+2026-02-16T21:21:26Z | INFO    | ppf_house_crawler | Results extracted: prefix=V pdf_links=0
+2026-02-16T21:21:26Z | INFO    | ppf_house_crawler | Prefix summary prefix=V new_rows=0 downloaded=0 failed_downloads=0
+2026-02-16T21:21:26Z | INFO    | ppf_house_crawler | Prefix [23/26] prefix=W year=2026
+2026-02-16T21:21:27Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:21:28Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:21:28Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:21:28Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:21:28Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=W
+2026-02-16T21:21:28Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=W
+2026-02-16T21:21:29Z | DEBUG   | ppf_house_crawler | Found 2 PDF anchors on page
+2026-02-16T21:21:29Z | INFO    | ppf_house_crawler | Results extracted: prefix=W pdf_links=2
+2026-02-16T21:21:29Z | DEBUG   | ppf_house_crawler | Downloading PDF attempt=1/3 url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033718.pdf -> /home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033718_Wagner_Hon.._Ann_MO02_2026_Original.pdf
+2026-02-16T21:21:29Z | INFO    | ppf_house_crawler | Downloaded PDF ok bytes=68538 sha256=8063543c4c80 path=/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033718_Wagner_Hon.._Ann_MO02_2026_Original.pdf
+2026-02-16T21:21:29Z | DEBUG   | ppf_house_crawler | Downloading PDF attempt=1/3 url=https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033783.pdf -> /home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033783_Williams_Hon.._Roger_TX25_2026_Original.pdf
+2026-02-16T21:21:29Z | INFO    | ppf_house_crawler | Downloaded PDF ok bytes=69119 sha256=63ba2ba881b5 path=/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026/20033783_Williams_Hon.._Roger_TX25_2026_Original.pdf
+2026-02-16T21:21:29Z | DEBUG   | ppf_house_crawler | Appended 2 rows to /home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/house_fd_index.csv
+2026-02-16T21:21:29Z | INFO    | ppf_house_crawler | Prefix summary prefix=W new_rows=2 downloaded=2 failed_downloads=0
+2026-02-16T21:21:29Z | INFO    | ppf_house_crawler | Prefix [24/26] prefix=X year=2026
+2026-02-16T21:21:30Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:21:31Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:21:31Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:21:31Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:21:31Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=X
+2026-02-16T21:21:32Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=X
+2026-02-16T21:21:32Z | DEBUG   | ppf_house_crawler | Found 0 PDF anchors on page
+2026-02-16T21:21:32Z | INFO    | ppf_house_crawler | Results extracted: prefix=X pdf_links=0
+2026-02-16T21:21:32Z | INFO    | ppf_house_crawler | Prefix summary prefix=X new_rows=0 downloaded=0 failed_downloads=0
+2026-02-16T21:21:32Z | INFO    | ppf_house_crawler | Prefix [25/26] prefix=Y year=2026
+2026-02-16T21:21:33Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:21:33Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:21:33Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:21:33Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:21:33Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=Y
+2026-02-16T21:21:34Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=Y
+2026-02-16T21:21:34Z | DEBUG   | ppf_house_crawler | Found 0 PDF anchors on page
+2026-02-16T21:21:34Z | INFO    | ppf_house_crawler | Results extracted: prefix=Y pdf_links=0
+2026-02-16T21:21:34Z | INFO    | ppf_house_crawler | Prefix summary prefix=Y new_rows=0 downloaded=0 failed_downloads=0
+2026-02-16T21:21:34Z | INFO    | ppf_house_crawler | Prefix [26/26] prefix=Z year=2026
+2026-02-16T21:21:35Z | DEBUG   | ppf_house_crawler | Loading search page: https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch
+2026-02-16T21:21:36Z | DEBUG   | ppf_house_crawler | Found last-name input via selector: input[name='LastName']
+2026-02-16T21:21:36Z | DEBUG   | ppf_house_crawler | Found filing-year select via selector: select[name='FilingYear']
+2026-02-16T21:21:36Z | DEBUG   | ppf_house_crawler | Found search button via selector: button:has-text('Search')
+2026-02-16T21:21:36Z | DEBUG   | ppf_house_crawler | Submitting search: year=2026 prefix=Z
+2026-02-16T21:21:37Z | DEBUG   | ppf_house_crawler | Search completed: year=2026 prefix=Z
+2026-02-16T21:21:37Z | DEBUG   | ppf_house_crawler | Found 0 PDF anchors on page
+2026-02-16T21:21:37Z | INFO    | ppf_house_crawler | Results extracted: prefix=Z pdf_links=0
+2026-02-16T21:21:37Z | INFO    | ppf_house_crawler | Prefix summary prefix=Z new_rows=0 downloaded=0 failed_downloads=0
+2026-02-16T21:21:37Z | INFO    | ppf_house_crawler | Crawler done: new_rows=14 downloaded=14 failed_downloads=0 index=/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/house_fd_index.csv pdf_root=/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/house/pdfs/2026
