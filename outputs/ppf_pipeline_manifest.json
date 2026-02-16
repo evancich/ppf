@@ -1,6 +1,6 @@
 {
-  "run_id": "20260215T225632Z",
-  "run_utc": "2026-02-15T22:56:32+00:00",
+  "run_id": "20260216T201614Z",
+  "run_utc": "2026-02-16T20:16:14+00:00",
   "project_root": "/home/vboxuser/work/ppf/ppf/temp/ppf",
   "args": {
     "half_life_days": 120,
@@ -11,10 +11,10 @@
     "transactions": 25,
     "assets": 18,
     "mapping_rows": 18,
-    "unmapped_assets": 18,
-    "unmapped_fraction": 1.0,
-    "impulses_rows": 0,
-    "scores_rows": 0
+    "unmapped_assets": 0,
+    "unmapped_fraction": 0.0,
+    "impulses_rows": 10,
+    "scores_rows": 18
   },
   "outputs": {
     "asset_to_sector_mapping": "/home/vboxuser/work/ppf/ppf/temp/ppf/data/reference/asset_to_sector_mapping.csv",
@@ -23,20 +23,17 @@
     "asset_universe": "/home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv",
     "assets_unmapped": "/home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv",
     "impulses_sector_daily": "/home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_impulses_sector_daily.csv",
-    "scores_sector_daily": "/home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_scores_sector_daily.csv"
+    "scores_sector_daily": "/home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_scores_sector_daily.csv",
+    "scores_snapshot_latest": "/home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_scores_sector_snapshot_latest.csv"
   },
-  "warnings": [
-    {
-      "kind": "scores_empty",
-      "reason": "No mapped BUY/SELL impulses (mapping likely empty or all UNMAPPED)."
-    }
-  ],
+  "warnings": [],
   "errors": [],
   "stage_seconds": {
-    "ensure_reference_files": 0.0005366802215576172,
-    "enrich_transactions": 0.027858257293701172,
-    "load_and_apply_mapping": 0.013083457946777344,
-    "build_impulses_sector_daily": 0.0036916732788085938,
-    "compute_ppf_sector_daily": 0.0003046989440917969
-  }
+    "ensure_reference_files": 9.441375732421875e-05,
+    "enrich_transactions": 0.021330833435058594,
+    "load_and_apply_mapping": 0.012845039367675781,
+    "build_impulses_sector_daily": 0.0048291683197021484,
+    "compute_ppf_sector_daily": 0.031200647354125977
+  },
+  "latest_score_date": "2026-02-06"
 }
