@@ -54,6 +54,15 @@ ppf/
 │ ├── ppf_scores_sector_snapshot_latest.csv
 │ └── ppf_pipeline_manifes
 
+Do everything:
+python ppf_master.py \
+  --project-root . \
+  --do-house --house-start-year 2015 --house-end-year 2026 --house-headless --house-download-pdfs \
+  --do-senate --senate-since 2012-01-01 --senate-download \
+  --do-pipeline --verbose \
+  --do-analysis
+
+
 Get Senate data:
 python ppf_crawl_efd.py --project-root . --since 2012-01-01 --max-pages 0 --download
 
