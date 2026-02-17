@@ -59,8 +59,11 @@ python ppf_master.py \
   --project-root . \
   --do-house --house-start-year 2015 --house-end-year 2026 --house-headless --house-download-pdfs \
   --do-senate --senate-since 2012-01-01 --senate-download \
-  --do-pipeline --verbose \
-  --do-analysis
+  --do-unify \
+  --do-pipeline --auto-map-yfinance \
+  --do-analysis \
+  --verbose
+
 
 
 Get Senate data:
