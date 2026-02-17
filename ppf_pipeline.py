@@ -246,13 +246,8 @@ def auto_map_yfinance(
     updated = 0
     checked = 0
 
-    valid_ticker_re = re.compile(r"^[A-Z][A-Z0-9\.\-]{0,9}$")
     for t in tickers:
         checked += 1
-        t = str(t).strip().upper()
-        if not t or t.isdigit() or not valid_ticker_re.match(t):
-            logger.debug("Skip non-ticker token for yfinance: %r", t)
-            continue
         idx = by_ticker.get(t)
         if idx is not None:
             sector = str(mapping.at[idx, "sector"] or "").strip()

@@ -320,6 +320,23 @@ def download_pdf(session: requests.Session, url: str, out_path: Path) -> Tuple[b
     ensure_parent(out_path)
     tmp = out_path.with_suffix(out_path.suffix + ".part")
 
+    # Idempotency / resume semantics:
+    # If we already have a valid PDF at out_path, do NOT re-download.
+    # This is the primary 'resume' mechanism for interrupted runs.
+    try:
+        if out_path.exists() and out_path.is_file() and out_path.stat().st_size > 0:
+            with out_path.open('rb') as f:
+                sig = f.read(5)
+            if sig == b"%PDF-":
+                digest = sha256_file(out_path)
+                LOGGER.info("Skip download (exists) bytes=%d sha256=%s path=%s", out_path.stat().st_size, digest[:12], out_path)
+                return True, digest
+            else:
+                LOGGER.warning("Existing file is not a PDF; will re-download path=%s", out_path)
+    except Exception as e:
+        LOGGER.warning("Skip-existing check failed; will attempt download path=%s err=%s", out_path, repr(e))
+
+
     for attempt in range(1, HTTP_RETRIES + 1):
         try:
             LOGGER.debug("Downloading PDF attempt=%d/%d url=%s -> %s", attempt, HTTP_RETRIES, url, out_path)
@@ -668,18 +685,6 @@ def crawl_house_disclosures(
                         fname = safe_filename(f"{report_id}_{row.filer_name or 'unknown'}.pdf")
                         out_pdf = pdf_root / fname
 
-                        # Skip download if already present (idempotent + resume-friendly)
-                        try:
-                            if out_pdf.exists() and out_pdf.is_file() and out_pdf.stat().st_size > 0:
-                                logger.info("Skip existing PDF: %s", str(out_pdf))
-                                ok, digest = True, ""
-                            else:
-                                ok, digest = None, None
-                        except Exception:
-                            ok, digest = None, None
-
-                        if ok is None:
-                        
                         ok, digest = download_pdf(req_session, pdf_url, out_pdf)
                         if ok:
                             row = HouseFDRow(**{**asdict(row),
