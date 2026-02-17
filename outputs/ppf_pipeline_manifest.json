@@ -1,39 +1,27 @@
 {
-  "run_id": "20260217T022124Z",
-  "run_utc": "2026-02-17T02:21:24+00:00",
+  "run_id": "20260217T205250Z",
+  "started_utc": "2026-02-17T20:52:50Z",
   "project_root": "/home/vboxuser/work/ppf/ppf/temp/ppf",
   "args": {
+    "project_root": "/home/vboxuser/work/ppf/ppf/temp/ppf",
+    "verbose": true,
     "half_life_days": 120,
     "concentration_alpha": 1.0,
-    "verbose": true
+    "auto_map_yfinance": true,
+    "yfinance_rate_limit_secs": 0.6,
+    "yfinance_max_assets": 0
   },
-  "counts": {
-    "transactions": 25,
-    "assets": 18,
-    "mapping_rows": 18,
-    "unmapped_assets": 0,
-    "unmapped_fraction": 0.0,
-    "impulses_rows": 10,
-    "scores_rows": 18
-  },
-  "outputs": {
+  "paths": {
     "asset_to_sector_mapping": "/home/vboxuser/work/ppf/ppf/temp/ppf/data/reference/asset_to_sector_mapping.csv",
-    "sector_to_etf": "/home/vboxuser/work/ppf/ppf/temp/ppf/data/reference/sector_to_etf.csv",
     "transactions_enriched": "/home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv",
     "asset_universe": "/home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv",
     "assets_unmapped": "/home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv",
-    "impulses_sector_daily": "/home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_impulses_sector_daily.csv",
-    "scores_sector_daily": "/home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_scores_sector_daily.csv",
-    "scores_snapshot_latest": "/home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_scores_sector_snapshot_latest.csv"
+    "unmapped_fraction": 1.0,
+    "impulses_path": "/home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_impulses_sector_daily.csv",
+    "scores_path": "/home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_scores_sector_daily.csv"
   },
   "warnings": [],
   "errors": [],
-  "stage_seconds": {
-    "ensure_reference_files": 0.00013113021850585938,
-    "enrich_transactions": 0.020782470703125,
-    "load_and_apply_mapping": 0.013292789459228516,
-    "build_impulses_sector_daily": 0.004155874252319336,
-    "compute_ppf_sector_daily": 0.020891427993774414
-  },
-  "latest_score_date": "2026-02-06"
+  "ended_utc": "2026-02-17T20:53:01Z",
+  "exit_code": 0
 }

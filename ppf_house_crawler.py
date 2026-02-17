@@ -668,6 +668,18 @@ def crawl_house_disclosures(
                         fname = safe_filename(f"{report_id}_{row.filer_name or 'unknown'}.pdf")
                         out_pdf = pdf_root / fname
 
+                        # Skip download if already present (idempotent + resume-friendly)
+                        try:
+                            if out_pdf.exists() and out_pdf.is_file() and out_pdf.stat().st_size > 0:
+                                logger.info("Skip existing PDF: %s", str(out_pdf))
+                                ok, digest = True, ""
+                            else:
+                                ok, digest = None, None
+                        except Exception:
+                            ok, digest = None, None
+
+                        if ok is None:
+                        
                         ok, digest = download_pdf(req_session, pdf_url, out_pdf)
                         if ok:
                             row = HouseFDRow(**{**asdict(row),

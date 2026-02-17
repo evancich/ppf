@@ -119,7 +119,7 @@ def main() -> int:
 
     LOGGER.info("Quarterly portfolios: quarters=%d", len(quarter_portfolios))
     for q, tks in quarter_portfolios.items():
-        LOGGER.info("%s -> %s", str(q), ", ".join(tks))
+        LOGGER.info("%s -> %s", str(q), ", ".join(map(str, tks)))
 
     all_tickers = sorted(set(selected["asset_id"].astype(str).unique().tolist() + [args.benchmark]))
     start_date = (tx["filing_date"].min() - pd.Timedelta(days=10)).date()

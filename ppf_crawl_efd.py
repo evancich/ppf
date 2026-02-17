@@ -235,7 +235,14 @@ def download_report(
         ext = ".pdf" if report.is_pdf else ".html"
         local_path = target_dir / f"{report.report_id}{ext}"
 
-        if local_path.exists() and not overwrite:
+        # If a previous run left a zero-byte file, remove it so we can re-download.
+        if local_path.exists() and not is_valid_cached_file(local_path):
+            try:
+                local_path.unlink()
+            except Exception:
+                pass
+
+        if local_path.exists() and not overwrite and is_valid_cached_file(local_path):
             report.downloaded = True
             report.local_path = str(local_path)
             report.http_status = 200
@@ -246,30 +253,10 @@ def download_report(
             return report
 
         rate_limit_sleep(rate_limit)
-        r = session.get(report.url_full, headers={"Referer": SEARCH_PAGE_URL}, timeout=DEFAULT_TIMEOUT_SECS, stream=True)
-
-        report.http_status = r.status_code
-        report.content_type = r.headers.get("Content-Type", "")
-
-        # Session expiry detection: sometimes redirects back to landing page
-        if r.url.rstrip("/") == LANDING_PAGE_URL.rstrip("/"):
-            # refresh agreement/token and retry once
-            csrf = get_csrf_and_accept_terms(session, rate_limit=rate_limit)
-            rate_limit_sleep(rate_limit)
-            r = session.get(report.url_full, headers={"Referer": SEARCH_PAGE_URL}, timeout=DEFAULT_TIMEOUT_SECS, stream=True)
-            report.http_status = r.status_code
-            report.content_type = r.headers.get("Content-Type", "")
-
-        r.raise_for_status()
-
-        safe_mkdir(target_dir)
-
-        # write file
-        with local_path.open("wb") as f:
-            for chunk in r.iter_content(chunk_size=1024 * 128):
-                if chunk:
-                    f.write(chunk)
-
+        # robust download with resume (.part + Range)
+        status, ctype, bytes_written = download_with_resume(session, report.url_full, local_path, referer=SEARCH_PAGE_URL)
+        report.http_status = status
+        report.content_type = ctype
         report.downloaded = True
         report.local_path = str(local_path)
         report.bytes = local_path.stat().st_size
@@ -297,6 +284,73 @@ def write_index_csv(path: Path, reports: List[ReportRow]) -> None:
             w.writerow(asdict(r))
 
 
+
+# -----------------------------
+# Resume/state + robust download
+# -----------------------------
+
+def load_state(path: Path) -> Dict[str, Any]:
+    if not path.exists():
+        return {"offset": 0, "page": 0, "seen_report_ids": [], "downloaded": {}}
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return {"offset": 0, "page": 0, "seen_report_ids": [], "downloaded": {}}
+
+def save_state(path: Path, state: Dict[str, Any]) -> None:
+    safe_mkdir(path.parent)
+    tmp = path.with_suffix(path.suffix + ".part")
+    tmp.write_text(json.dumps(state, indent=2, sort_keys=True), encoding="utf-8")
+    tmp.replace(path)
+
+def is_valid_cached_file(p: Path) -> bool:
+    try:
+        return p.exists() and p.is_file() and p.stat().st_size > 0
+    except Exception:
+        return False
+
+def download_with_resume(session: requests.Session, url: str, out_path: Path, referer: str, timeout: int = DEFAULT_TIMEOUT_SECS) -> Tuple[int, str, int]:
+    """Download url to out_path with .part + HTTP Range resume when possible.
+    Returns (http_status, content_type, bytes_written)."""
+    safe_mkdir(out_path.parent)
+    part = out_path.with_suffix(out_path.suffix + ".part")
+
+    headers = {"Referer": referer}
+    resume_from = 0
+    if part.exists():
+        try:
+            resume_from = part.stat().st_size
+        except Exception:
+            resume_from = 0
+    if resume_from > 0:
+        headers["Range"] = f"bytes={resume_from}-"
+
+    r = session.get(url, headers=headers, timeout=timeout, stream=True)
+    status = r.status_code
+    ctype = r.headers.get("Content-Type", "")
+
+    # If server didn't honor Range, restart
+    if "Range" in headers and status in (200, 301, 302, 303, 307, 308):
+        try:
+            part.unlink(missing_ok=True)
+        except Exception:
+            pass
+        resume_from = 0
+
+    r.raise_for_status()
+
+    mode = "ab" if resume_from > 0 and status == 206 else "wb"
+    bytes_written = resume_from
+    with part.open(mode) as f:
+        for chunk in r.iter_content(chunk_size=1024 * 128):
+            if chunk:
+                f.write(chunk)
+                bytes_written += len(chunk)
+
+    part.replace(out_path)
+    return status, ctype, bytes_written
+
+
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser()
     p.add_argument("--project-root", required=True, help="Project root (same as used by ppf_pipeline.py)")
@@ -307,6 +361,8 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--max-pages", type=int, default=0, help="0 = no limit; otherwise number of pages")
     p.add_argument("--download", action="store_true", help="If set, downloads report files")
     p.add_argument("--overwrite", action="store_true", help="Overwrite existing downloads")
+    p.add_argument("--state-file", default="", help="Path to crawl state JSON (default: outputs/efd_crawl_state.json)")
+    p.add_argument("--resume", action="store_true", help="Resume from existing state/index if present")
     return p.parse_args()
 
 
@@ -334,6 +390,12 @@ def main() -> int:
     outputs_dir = project_root / "outputs"
     index_csv = outputs_dir / "efd_reports_index.csv"
 
+    # Resume/state
+    state_path = Path(args.state_file) if args.state_file else (outputs_dir / "efd_crawl_state.json")
+    state = load_state(state_path) if args.resume else {"offset": 0, "page": 0, "seen_report_ids": [], "downloaded": {}}
+    seen = set(state.get("seen_report_ids", []))
+
+
     submitted_start = to_efd_datetime_str(args.since, end_of_day=False)
     submitted_end = to_efd_datetime_str(args.until, end_of_day=True) if args.until else ""
 
@@ -344,8 +406,8 @@ def main() -> int:
 
     # 2) Page through report rows
     all_reports: List[ReportRow] = []
-    offset = 0
-    page = 0
+    offset = int(state.get("offset", 0))
+    page = int(state.get("page", 0))
 
     while True:
         if args.max_pages and page >= args.max_pages:
@@ -366,6 +428,9 @@ def main() -> int:
             break
 
         reports = extract_rows_to_reports(rows)
+        # Deduplicate across resumes
+        reports = [r for r in reports if r.report_id not in seen]
+        for r in reports: seen.add(r.report_id)
         all_reports.extend(reports)
 
         offset += args.batch_size
@@ -373,6 +438,10 @@ def main() -> int:
 
         # progress
         print(f"[{utc_now_iso()}] fetched page={page} rows={len(rows)} total_reports={len(all_reports)}")
+        state["offset"] = int(offset)
+        state["page"] = int(page)
+        state["seen_report_ids"] = sorted(seen)
+        save_state(state_path, state)
 
     # 3) Download (optional)
     if args.download:
@@ -380,6 +449,13 @@ def main() -> int:
         safe_mkdir(out_dir_pdf)
 
         for i, rep in enumerate(all_reports, start=1):
+            # Skip already-downloaded items when resuming
+            cached = state.get("downloaded", {}).get(rep.report_id, {}) if args.resume else {}
+            if cached and cached.get("path") and is_valid_cached_file(Path(cached["path"])) and not args.overwrite:
+                rep.downloaded = True
+                rep.local_path = cached.get("path", "")
+                all_reports[i - 1] = rep
+                continue
             rep = download_report(
                 session=session,
                 report=rep,
@@ -389,6 +465,9 @@ def main() -> int:
                 overwrite=args.overwrite,
             )
             all_reports[i - 1] = rep
+            if args.resume and rep.downloaded and rep.local_path:
+                state.setdefault("downloaded", {})[rep.report_id] = {"path": rep.local_path, "downloaded": True, "ts_utc": utc_now_iso()}
+                save_state(state_path, state)
             if i % 50 == 0:
                 print(f"[{utc_now_iso()}] downloaded {i}/{len(all_reports)}")
 

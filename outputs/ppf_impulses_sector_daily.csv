@@ -1,11 +1,1 @@
-filing_date,sector,official_name,tx_impulse
-2026-02-04,Consumer Discretionary,"Mullin, Markwayne",1.0
-2026-02-04,Consumer Discretionary,"Whitehouse, Sheldon",-4.0
-2026-02-04,Financials,"Mullin, Markwayne",3.0
-2026-02-04,Health Care,"Mullin, Markwayne",1.0
-2026-02-04,Industrials,"Mullin, Markwayne",3.0
-2026-02-04,Information Technology,"Mullin, Markwayne",5.0
-2026-02-04,Information Technology,"Whitehouse, Sheldon",-2.0
-2026-02-04,Materials,"Mullin, Markwayne",2.0
-2026-02-06,Consumer Discretionary,"Hickenlooper, John",-1.0
-2026-02-06,Industrials,"Hickenlooper, John",1.0
+filing_date,official_name,sector,impulse
