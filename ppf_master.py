@@ -9,65 +9,44 @@ MASTER ORCHESTRATOR
 One command to:
   1) Crawl House disclosures (2015..current year) into data/raw/house/...
   2) Crawl Senate eFD PTR reports (2012..today) into data/raw/efd/...
-  3) Run the normalization pipeline (ppf_pipeline.py)
-  4) Run the simple backtest / analysis (ppf_backtest_simple.py)
+  3) Run unified extraction/parsing over PDFs (unify_ppf.py)
+  4) Run the normalization pipeline + PPF scoring (ppf_pipeline.py)
+  5) Run the simple backtest / analysis (ppf_backtest_simple.py)
 
-ASSUMPTIONS (reuses what you've already built)
-----------------------------------------------
-Expected sibling scripts in the same directory:
-  - ppf_house_crawler.py
-  - ppf_crawl_efd.py
-  - ppf_pipeline.py
-  - ppf_backtest_simple.py
-
-Expected directories (created if missing):
-  - data/raw/house/pdfs/<year>/
-  - data/raw/efd/pdf/ and data/raw/efd/html/
-  - data/processed/
-  - outputs/
-  - logs/
+Why unify_ppf.py is required:
+  - It is the PDF table extractor that creates outputs/ppf_transactions_unified.csv
+  - ppf_pipeline.py consumes that unified CSV.
 
 USAGE
 -----
-# Full end-to-end:
-python ppf_master.py --project-root . --do-house --do-senate --do-pipeline --do-analysis
+python ppf_master.py --project-root . --do-house --do-senate --do-unify --do-pipeline --do-analysis --verbose
 
-# Crawl only:
-python ppf_master.py --project-root . --do-house --do-senate
-
-# Pipeline + analysis only (assuming PDFs already present):
-python ppf_master.py --project-root . --do-pipeline --do-analysis
-
-NOTES
------
-- This orchestrator runs subprocesses so you don't have to manually invoke each stage.
-- It logs verbosely to logs/ppf_master.log and mirrors key progress to console.
+Recommended end-to-end (House 2015..2026):
+python ppf_master.py \
+  --project-root . \
+  --do-house --house-start-year 2015 --house-end-year 2026 --house-headless --house-download-pdfs \
+  --do-senate --senate-since 2012-01-01 --senate-download \
+  --do-unify \
+  --do-pipeline --auto-map-yfinance \
+  --do-analysis \
+  --verbose
 """
 
 from __future__ import annotations
 
 import argparse
 import logging
-import os
 import subprocess
 import sys
 import time
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 from typing import List, Optional
 
 
-# -----------------------------
-# Logging
-# -----------------------------
-
 LOG_REL = Path("logs/ppf_master.log")
 LOGGER = logging.getLogger("ppf_master")
-
-
-def utc_now_iso() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def setup_logging(project_root: Path, verbose: bool) -> None:
@@ -75,6 +54,7 @@ def setup_logging(project_root: Path, verbose: bool) -> None:
     log_path.parent.mkdir(parents=True, exist_ok=True)
 
     LOGGER.setLevel(logging.DEBUG)
+    LOGGER.handlers.clear()
 
     fh = logging.FileHandler(log_path, encoding="utf-8")
     fh.setLevel(logging.DEBUG)
@@ -89,17 +69,12 @@ def setup_logging(project_root: Path, verbose: bool) -> None:
     fh.setFormatter(fmt)
     ch.setFormatter(fmt)
 
-    LOGGER.handlers.clear()
     LOGGER.addHandler(fh)
     LOGGER.addHandler(ch)
 
     LOGGER.info("Logging initialized")
     LOGGER.info("log_file=%s", str(log_path))
 
-
-# -----------------------------
-# Subprocess helpers
-# -----------------------------
 
 @dataclass
 class CmdResult:
@@ -108,24 +83,13 @@ class CmdResult:
     elapsed_s: float
 
 
-def run_cmd(
-    cmd: List[str],
-    cwd: Path,
-    env: Optional[dict] = None,
-    check: bool = True,
-) -> CmdResult:
-    """
-    Run a subprocess with streaming output (so you see progress in real time),
-    while also keeping structured logging of start/end.
-    """
+def run_cmd(cmd: List[str], cwd: Path, check: bool = True) -> CmdResult:
     start = time.time()
     LOGGER.info("RUN: %s", " ".join(cmd))
 
-    # Stream output line-by-line to console; capture return code
     p = subprocess.Popen(
         cmd,
         cwd=str(cwd),
-        env=env,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
@@ -141,7 +105,6 @@ def run_cmd(
 
     p.wait()
     elapsed = time.time() - start
-
     LOGGER.info("DONE: rc=%d elapsed=%.2fs", p.returncode, elapsed)
 
     if check and p.returncode != 0:
@@ -150,22 +113,17 @@ def run_cmd(
     return CmdResult(cmd=cmd, returncode=p.returncode, elapsed_s=elapsed)
 
 
-# -----------------------------
-# Stage runners
-# -----------------------------
-
 def ensure_expected_scripts(project_root: Path) -> None:
     required = [
         "ppf_house_crawler.py",
         "ppf_crawl_efd.py",
+        "unify_ppf.py",
         "ppf_pipeline.py",
         "ppf_backtest_simple.py",
     ]
     missing = [s for s in required if not (project_root / s).exists()]
     if missing:
-        raise FileNotFoundError(
-            "Missing required scripts in project root:\n  " + "\n  ".join(missing)
-        )
+        raise FileNotFoundError("Missing required scripts:\n  " + "\n  ".join(missing))
 
 
 def stage_house_crawl(
@@ -177,9 +135,6 @@ def stage_house_crawl(
     verbose: bool,
     sleep_between_years_s: float,
 ) -> None:
-    """
-    Crawl House filings for each year in [year_start..year_end].
-    """
     LOGGER.info("=== Stage: House crawl ===")
     for year in range(year_start, year_end + 1):
         LOGGER.info("House year=%d", year)
@@ -202,10 +157,7 @@ def stage_house_crawl(
             cmd.append("--verbose")
 
         run_cmd(cmd, cwd=project_root, check=True)
-
-        LOGGER.info("Sleep between years: %.1fs", sleep_between_years_s)
         time.sleep(max(0.0, sleep_between_years_s))
-
     LOGGER.info("=== Stage: House crawl complete ===")
 
 
@@ -216,9 +168,6 @@ def stage_senate_crawl(
     download: bool,
     overwrite: bool,
 ) -> None:
-    """
-    Crawl Senate eFD PTRs using the existing ppf_crawl_efd.py.
-    """
     LOGGER.info("=== Stage: Senate crawl ===")
     cmd = [
         sys.executable,
@@ -234,79 +183,77 @@ def stage_senate_crawl(
         cmd.append("--download")
     if overwrite:
         cmd.append("--overwrite")
-
     run_cmd(cmd, cwd=project_root, check=True)
     LOGGER.info("=== Stage: Senate crawl complete ===")
 
 
-def stage_pipeline(project_root: Path, verbose: bool) -> None:
-    LOGGER.info("=== Stage: Pipeline ===")
-    cmd = [sys.executable, "ppf_pipeline.py", "--project-root", str(project_root)]
+def stage_unify(project_root: Path, verbose: bool) -> None:
+    LOGGER.info("=== Stage: unify_ppf (parse PDFs) ===")
+    cmd = [sys.executable, "unify_ppf.py", "--project-root", str(project_root)]
     if verbose:
         cmd.append("--verbose")
     run_cmd(cmd, cwd=project_root, check=True)
-    LOGGER.info("=== Stage: Pipeline complete ===")
+    LOGGER.info("=== Stage: unify_ppf complete ===")
 
 
-def stage_analysis(project_root: Path) -> None:
-    """
-    Runs the simple backtest. This script currently prints to console and plots.
-    """
-    LOGGER.info("=== Stage: Analysis (simple backtest) ===")
-    cmd = [sys.executable, "ppf_backtest_simple.py"]
+def stage_pipeline(project_root: Path, verbose: bool, auto_map_yfinance: bool) -> None:
+    LOGGER.info("=== Stage: pipeline ===")
+    cmd = [sys.executable, "ppf_pipeline.py", "--project-root", str(project_root)]
+    if verbose:
+        cmd.append("--verbose")
+    if auto_map_yfinance:
+        cmd.append("--auto-map-yfinance")
     run_cmd(cmd, cwd=project_root, check=True)
-    LOGGER.info("=== Stage: Analysis complete ===")
+    LOGGER.info("=== Stage: pipeline complete ===")
 
 
-# -----------------------------
-# CLI
-# -----------------------------
+def stage_analysis(project_root: Path, verbose: bool) -> None:
+    LOGGER.info("=== Stage: analysis ===")
+    cmd = [sys.executable, "ppf_backtest_simple.py"]
+    if verbose:
+        cmd.append("--verbose")
+    run_cmd(cmd, cwd=project_root, check=True)
+    LOGGER.info("=== Stage: analysis complete ===")
+
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser()
+    p.add_argument("--project-root", required=True)
 
-    p.add_argument("--project-root", required=True, help="Repo root (directory containing the ppf_*.py scripts).")
+    p.add_argument("--do-house", action="store_true")
+    p.add_argument("--do-senate", action="store_true")
+    p.add_argument("--do-unify", action="store_true")
+    p.add_argument("--do-pipeline", action="store_true")
+    p.add_argument("--do-analysis", action="store_true")
 
-    # Which stages to run
-    p.add_argument("--do-house", action="store_true", help="Crawl House filings.")
-    p.add_argument("--do-senate", action="store_true", help="Crawl Senate eFD PTR filings.")
-    p.add_argument("--do-pipeline", action="store_true", help="Run ppf_pipeline.py normalization/enrichment.")
-    p.add_argument("--do-analysis", action="store_true", help="Run ppf_backtest_simple.py analysis.")
+    p.add_argument("--house-start-year", type=int, default=2015)
+    p.add_argument("--house-end-year", type=int, default=datetime.now().year)
+    p.add_argument("--house-headless", action="store_true")
+    p.add_argument("--house-download-pdfs", action="store_true")
+    p.add_argument("--house-sleep-between-years", type=float, default=5.0)
 
-    # House crawl options
-    p.add_argument("--house-start-year", type=int, default=2015, help="House crawl start year (default 2015).")
-    p.add_argument("--house-end-year", type=int, default=datetime.now().year, help="House crawl end year (default current year).")
-    p.add_argument("--house-headless", action="store_true", help="Run House crawler headless (recommended).")
-    p.add_argument("--house-download-pdfs", action="store_true", help="Actually download PDFs during House crawl.")
-    p.add_argument("--house-sleep-between-years", type=float, default=5.0, help="Seconds to sleep between years.")
+    p.add_argument("--senate-since", default="2012-01-01")
+    p.add_argument("--senate-max-pages", type=int, default=0)
+    p.add_argument("--senate-download", action="store_true")
+    p.add_argument("--senate-overwrite", action="store_true")
 
-    # Senate crawl options
-    p.add_argument("--senate-since", default="2012-01-01", help="Start date for Senate crawl (YYYY-MM-DD).")
-    p.add_argument("--senate-max-pages", type=int, default=0, help="0 = no limit; else number of pages.")
-    p.add_argument("--senate-download", action="store_true", help="Download Senate reports (HTML/PDF).")
-    p.add_argument("--senate-overwrite", action="store_true", help="Overwrite existing Senate downloads.")
-
-    # General
-    p.add_argument("--verbose", action="store_true", help="Verbose master logging and pass through where supported.")
-
+    p.add_argument("--auto-map-yfinance", action="store_true", help="Let pipeline fill sector/subsector using yfinance")
+    p.add_argument("--verbose", action="store_true")
     return p.parse_args()
 
 
 def main() -> int:
     args = parse_args()
     project_root = Path(args.project_root).resolve()
-
     setup_logging(project_root, verbose=args.verbose)
 
     LOGGER.info("=== PPF Master start ===")
-    LOGGER.info("project_root=%s", str(project_root))
-    LOGGER.info("argv=%s", " ".join(sys.argv))
+    LOGGER.info("project_root=%s", project_root)
 
     ensure_expected_scripts(project_root)
 
-    # If user runs with no stages, fail fast with actionable message
-    if not (args.do_house or args.do_senate or args.do_pipeline or args.do_analysis):
-        LOGGER.error("No stages selected. Use one or more: --do-house --do-senate --do-pipeline --do-analysis")
+    if not (args.do_house or args.do_senate or args.do_unify or args.do_pipeline or args.do_analysis):
+        LOGGER.error("No stages selected.")
         return 2
 
     try:
@@ -330,14 +277,21 @@ def main() -> int:
                 overwrite=args.senate_overwrite,
             )
 
+        if args.do_unify:
+            stage_unify(project_root=project_root, verbose=args.verbose)
+
         if args.do_pipeline:
-            stage_pipeline(project_root=project_root, verbose=args.verbose)
+            stage_pipeline(
+                project_root=project_root,
+                verbose=args.verbose,
+                auto_map_yfinance=args.auto_map_yfinance,
+            )
 
         if args.do_analysis:
-            stage_analysis(project_root=project_root)
+            stage_analysis(project_root=project_root, verbose=args.verbose)
 
     except KeyboardInterrupt:
-        LOGGER.warning("Interrupted by user (Ctrl+C).")
+        LOGGER.warning("Interrupted by user.")
         return 130
     except Exception as e:
         LOGGER.exception("Master failed: %s", repr(e))

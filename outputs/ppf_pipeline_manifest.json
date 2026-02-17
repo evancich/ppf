@@ -1,6 +1,6 @@
 {
-  "run_id": "20260216T201614Z",
-  "run_utc": "2026-02-16T20:16:14+00:00",
+  "run_id": "20260217T022124Z",
+  "run_utc": "2026-02-17T02:21:24+00:00",
   "project_root": "/home/vboxuser/work/ppf/ppf/temp/ppf",
   "args": {
     "half_life_days": 120,
@@ -29,11 +29,11 @@
   "warnings": [],
   "errors": [],
   "stage_seconds": {
-    "ensure_reference_files": 9.441375732421875e-05,
-    "enrich_transactions": 0.021330833435058594,
-    "load_and_apply_mapping": 0.012845039367675781,
-    "build_impulses_sector_daily": 0.0048291683197021484,
-    "compute_ppf_sector_daily": 0.031200647354125977
+    "ensure_reference_files": 0.00013113021850585938,
+    "enrich_transactions": 0.020782470703125,
+    "load_and_apply_mapping": 0.013292789459228516,
+    "build_impulses_sector_daily": 0.004155874252319336,
+    "compute_ppf_sector_daily": 0.020891427993774414
   },
   "latest_score_date": "2026-02-06"
 }
