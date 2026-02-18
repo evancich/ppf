@@ -33,95 +33,116 @@ def run_performance_audit():
 
     df = pd.read_csv(UNIFIED_PATH)
     df['filing_date'] = pd.to_datetime(df['filing_date'], errors='coerce')
-    df = df.dropna(subset=['filing_date', 'ticker'])
-    df['filer'] = df['filer'].apply(clean_name)
     
-    # Clean tickers
+    # Traceability: Initial Row Count
+    initial_rows = len(df)
+    df = df.dropna(subset=['filing_date', 'ticker'])
+    after_cleaning = len(df)
+    
+    df['filer'] = df['filer'].apply(clean_name)
     tickers = sorted([str(t).replace('.', '-') for t in df['ticker'].unique() if t != "UNKNOWN"])
     
-    if not tickers:
-        print("No tickers found to process.")
-        return
+    print(f"Downloaded {len(tickers)} tickers + SPY (using auto_adjust=True)...")
     
-    print(f"Downloading data for {len(tickers)} tickers + SPY...")
-    # Fetch SPY first
-    spy = yf.download("SPY", start="2022-01-01", progress=False)['Close']
-    if isinstance(spy, pd.DataFrame): spy = spy.iloc[:, 0] # Ensure it's a series
+    # DATA QUALITY FIX: Using auto_adjust=True for accurate split/div accounting
+    spy = yf.download("SPY", start="2022-01-01", progress=False, auto_adjust=True)['Close']
+    if isinstance(spy, pd.DataFrame): spy = spy.iloc[:, 0]
     spy = spy[~spy.index.duplicated(keep='first')]
 
-    # Fetch tickers
-    prices_df = yf.download(tickers, start="2022-01-01", progress=False)['Close']
-    
-    # If only one ticker, yfinance might return a Series. Force to DataFrame
+    prices_df = yf.download(tickers, start="2022-01-01", progress=False, auto_adjust=True)['Close']
     if isinstance(prices_df, pd.Series):
         prices_df = prices_df.to_frame(name=tickers[0])
 
-    raw_audit_log = []
+    audit_log = []
     
     for _, trade in df.iterrows():
         ticker = str(trade['ticker']).replace('.', '-')
+        skip_reason = None
+        
         if ticker not in prices_df.columns:
-            continue
-        
-        # Get the individual series and remove duplicates/NaNs
-        p_series = prices_df[ticker].dropna()
-        p_series = p_series[~p_series.index.duplicated(keep='first')]
-        
-        if p_series.empty:
-            continue
+            skip_reason = "Ticker missing in download"
+        else:
+            p_series = prices_df[ticker].dropna()
+            p_series = p_series[~p_series.index.duplicated(keep='first')]
             
-        impulse = 1 if str(trade['transaction_type']).upper() == "BUY" else -1
-        
-        # Entry calculation: find the first trading day on or after filing
-        entry_mask = p_series.index >= trade['filing_date']
-        if not entry_mask.any():
-            continue
-        
-        dt_entry = p_series.index[entry_mask][0]
-        p_idx = p_series.index.get_loc(dt_entry)
-        
-        # Need to find corresponding index in SPY
-        spy_mask = spy.index >= dt_entry
-        if not spy_mask.any():
-            continue
-        dt_spy_entry = spy.index[spy_mask][0]
-        s_idx = spy.index.get_loc(dt_spy_entry)
-        
-        p_entry = get_first_scalar(p_series.iloc[p_idx])
-        s_entry = get_first_scalar(spy.iloc[s_idx])
-
-        # Horizons: 5, 20, 60 trading days
-        for h in [5, 20, 60]:
-            exit_p_idx = p_idx + h
-            exit_s_idx = s_idx + h
-            
-            record = {
-                'Filer': trade['filer'], 
-                'Ticker': ticker, 
-                'Type': trade['transaction_type'],
-                'Filing_Date': trade['filing_date'].date(), 
-                'Horizon': h, 
-                'Alpha_BPS': None
-            }
-            
-            if exit_p_idx < len(p_series) and exit_s_idx < len(spy):
-                p_exit = get_first_scalar(p_series.iloc[exit_p_idx])
-                s_exit = get_first_scalar(spy.iloc[exit_s_idx])
+            if p_series.empty:
+                skip_reason = "No price data available"
+            else:
+                impulse = 1 if str(trade['transaction_type']).upper() == "BUY" else -1
                 
-                if pd.notnull(p_exit) and pd.notnull(s_exit) and p_entry > 0 and s_entry > 0:
-                    stock_ret = (float(p_exit) / float(p_entry)) - 1
-                    spy_ret = (float(s_exit) / float(s_entry)) - 1
-                    alpha = (stock_ret - spy_ret) * impulse
-                    record['Alpha_BPS'] = int(alpha * 10000)
-            
-            raw_audit_log.append(record)
+                entry_mask = p_series.index >= trade['filing_date']
+                spy_mask = spy.index >= trade['filing_date']
+                
+                if not entry_mask.any() or not spy_mask.any():
+                    skip_reason = "Filing date outside price range"
+                else:
+                    dt_entry = p_series.index[entry_mask][0]
+                    dt_spy_entry = spy.index[spy_mask][0]
+                    
+                    p_idx = p_series.index.get_loc(dt_entry)
+                    s_idx = spy.index.get_loc(dt_spy_entry)
+                    
+                    p_entry = float(get_first_scalar(p_series.iloc[p_idx]))
+                    s_entry = float(get_first_scalar(spy.iloc[s_idx]))
 
-    out_df = pd.DataFrame(raw_audit_log)
-    if not out_df.empty:
-        out_df.to_csv(RAW_AUDIT_FILE, index=False)
-        print(f"Audit complete. Results saved to {RAW_AUDIT_FILE}")
-    else:
-        print("No valid trade horizons found to audit.")
+                    for h in [5, 20, 60]:
+                        exit_p_idx = p_idx + h
+                        exit_s_idx = s_idx + h
+                        
+                        # Full traceability record
+                        record = {
+                            'Filer': trade['filer'], 
+                            'Ticker': ticker, 
+                            'Type': trade['transaction_type'],
+                            'Filing_Date': trade['filing_date'].date(),
+                            'Horizon': h,
+                            'Entry_Date': dt_entry.date(),
+                            'Entry_Price': p_entry,
+                            'SPY_Entry_Price': s_entry,
+                            'Exit_Date': None,
+                            'Exit_Price': None,
+                            'SPY_Exit_Price': None,
+                            'Stock_Return': None,
+                            'SPY_Return': None,
+                            'Alpha_BPS': None,
+                            'Status': 'Incomplete'
+                        }
+                        
+                        if exit_p_idx < len(p_series) and exit_s_idx < len(spy):
+                            dt_exit = p_series.index[exit_p_idx]
+                            dt_spy_exit = spy.index[exit_s_idx]
+                            
+                            p_exit = float(get_first_scalar(p_series.iloc[exit_p_idx]))
+                            s_exit = float(get_first_scalar(spy.iloc[exit_s_idx]))
+                            
+                            stock_ret = (p_exit / p_entry) - 1
+                            spy_ret = (s_exit / s_entry) - 1
+                            alpha = (stock_ret - spy_ret) * impulse
+                            
+                            record.update({
+                                'Exit_Date': dt_exit.date(),
+                                'Exit_Price': p_exit,
+                                'SPY_Exit_Price': s_exit,
+                                'Stock_Return': stock_ret,
+                                'SPY_Return': spy_ret,
+                                'Alpha_BPS': int(alpha * 10000),
+                                'Status': 'Success'
+                            })
+                        else:
+                            record['Status'] = 'Future Trade / No Exit'
+                        
+                        audit_log.append(record)
+        
+        if skip_reason:
+            audit_log.append({
+                'Filer': trade['filer'], 'Ticker': ticker, 'Status': f"Skipped: {skip_reason}"
+            })
+
+    out_df = pd.DataFrame(audit_log)
+    out_df.to_csv(RAW_AUDIT_FILE, index=False)
+    print(f"\nHardened Audit Complete.")
+    print(f"Initial Rows: {initial_rows} -> Rows Processed: {after_cleaning}")
+    print(f"Results with traceability saved to {RAW_AUDIT_FILE}")
 
 if __name__ == "__main__":
     run_performance_audit()
