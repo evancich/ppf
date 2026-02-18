@@ -1,0 +1,15 @@
+official,ticker,impulse,weight,persistence,score,source
+BOOZMAN,FULL,-1,1.0,0.9885140203528962,-0.9885140203528962,/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/efd/html/bd886067-927f-48a8-9d43-8ab6fa713f98.html
+WHITEHOUSE,FULL,-1,1.0,0.9475160078148386,-0.9475160078148386,/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/efd/html/d8dd8a6c-08c7-4432-8e62-5cd0ee9c4a8e.html
+SMITH,FULL,-1,1.0,0.92944696061351,-0.92944696061351,/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/efd/html/a8f2bab8-0feb-49cf-b80f-9826cb4a7a4c.html
+BRITT,FULL,-1,1.0,0.9258747122872905,-0.9258747122872905,/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/efd/html/37900303-65bf-467d-962b-76555d510b28.html
+BRITT,FULL,1,1.0,0.9152401341861904,0.9152401341861904,/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/efd/html/28e79480-3dcb-4793-86ed-48e7fd214587.html
+JR.,FULL,1,1.0,0.9152401341861904,0.9152401341861904,/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/efd/html/d7cae837-f73c-4eb1-b9fb-e510f53d65de.html
+WARNER,FULL,-1,1.5,0.8806658735961485,-1.3209988103942227,/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/efd/html/5a8fc13a-c5aa-44b1-a72e-a68badbdd5f4.html
+TUBERVILLE,FULL,1,1.2,0.8772811111231658,1.052737333347799,/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/efd/html/b2bdf363-af39-43c8-ae93-13ed14aa3752.html
+MULLIN,FULL,-1,1.0,0.8705505632961241,-0.8705505632961241,/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/efd/html/7ab0d2fd-19ea-459d-a1d9-3701e2cc8e93.html
+BOOZMAN,FULL,-1,1.0,0.8705505632961241,-0.8705505632961241,/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/efd/html/d3daa40b-123d-4451-9974-02bf5a96d8da.html
+PETERS,FULL,1,1.0,0.8506671609508557,0.8506671609508557,/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/efd/html/0dbb004e-a36f-4554-986d-d8b1a9a4769a.html
+FETTERMAN,FULL,-1,1.0,0.8473976959134202,-0.8473976959134202,/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/efd/html/3e408f48-f710-420d-ba46-d2269c689a8a.html
+CAPITO,FULL,-1,1.0,0.8473976959134202,-0.8473976959134202,/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/efd/html/439c1ac8-2955-486b-9f9c-4f1c6524671a.html
+GRAHAM,FULL,1,1.0,0.8473976959134202,0.8473976959134202,/home/vboxuser/work/ppf/ppf/temp/ppf/data/raw/efd/html/89777dd7-42ff-4095-bc54-7204a14232d4.html

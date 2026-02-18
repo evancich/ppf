@@ -61,89 +61,6 @@ TX_REQUIRED_COLUMNS = [
     "asset_name",
 ]
 
-# --- Schema normalization and semantic normalization helpers -----------------
-
-def _normalize_transaction_type(v: object) -> str:
-    """Map heterogeneous disclosure transaction type strings to BUY/SELL/OTHER."""
-    if v is None:
-        return ""
-    s = str(v).strip().lower()
-    if not s or s in {"nan", "none"}:
-        return ""
-    if "purchase" in s or s == "buy" or "acquisition" in s:
-        return "BUY"
-    if "sale" in s or "sell" in s or "disposed" in s:
-        return "SELL"
-    if "exchange" in s:
-        return "EXCHANGE"
-    if "dividend" in s or "interest" in s:
-        return "INCOME"
-    if "received" in s or "gift" in s:
-        return "RECEIVED"
-    return "OTHER"
-
-
-def _ensure_unified_columns(tx: pd.DataFrame, logger: logging.Logger) -> pd.DataFrame:
-    """Ensure the unified transactions dataframe has the columns expected by the pipeline."""
-    missing = [c for c in TX_REQUIRED_COLUMNS if c not in tx.columns]
-    if not missing:
-        return tx
-
-    synthesized: dict[str, str] = {}
-
-    if "source_file" not in tx.columns and "local_path" in tx.columns:
-        tx["source_file"] = tx["local_path"]
-        synthesized["source_file"] = "local_path"
-
-    if "source_page" not in tx.columns:
-        tx["source_page"] = pd.NA
-        synthesized["source_page"] = "<NA>"
-
-    if "official_name" not in tx.columns:
-        if ("filer_first" in tx.columns) or ("filer_last" in tx.columns):
-            first = tx.get("filer_first", "").fillna("").astype(str).str.strip()
-            last = tx.get("filer_last", "").fillna("").astype(str).str.strip()
-            name = (first + " " + last).str.replace(r"\s+", " ", regex=True).str.strip()
-            tx["official_name"] = name.replace({"": pd.NA})
-            synthesized["official_name"] = "filer_first+filer_last"
-        else:
-            tx["official_name"] = pd.NA
-            synthesized["official_name"] = "<NA>"
-
-    if "filing_datetime" not in tx.columns:
-        src = None
-        for cand in ("date_received", "date_received_raw", "filing_date", "filing_date_raw"):
-            if cand in tx.columns:
-                src = cand
-                break
-        if src is not None:
-            dt = pd.to_datetime(tx[src], errors="coerce", utc=True)
-            tx["filing_datetime"] = dt.dt.strftime("%Y-%m-%dT%H:%M:%SZ")
-            synthesized["filing_datetime"] = src
-        else:
-            tx["filing_datetime"] = pd.NA
-            synthesized["filing_datetime"] = "<NA>"
-
-    if "amount_bucket_raw" not in tx.columns:
-        if "amount_raw" in tx.columns:
-            tx["amount_bucket_raw"] = tx["amount_raw"]
-            synthesized["amount_bucket_raw"] = "amount_raw"
-        elif "amount_bucket" in tx.columns:
-            tx["amount_bucket_raw"] = tx["amount_bucket"]
-            synthesized["amount_bucket_raw"] = "amount_bucket"
-        else:
-            tx["amount_bucket_raw"] = pd.NA
-            synthesized["amount_bucket_raw"] = "<NA>"
-
-    missing2 = [c for c in TX_REQUIRED_COLUMNS if c not in tx.columns]
-    if missing2:
-        raise ValueError(f"Unified transactions missing required columns: {missing2}")
-
-    if synthesized:
-        logger.info("Unified schema adapter synthesized columns: %s", synthesized)
-
-    return tx
-
 MAPPING_COLUMNS = [
     "asset_id",
     "ticker_norm",
@@ -242,13 +159,67 @@ def enrich_transactions(project_root: Path, logger: logging.Logger) -> Tuple[pd.
         raise FileNotFoundError(f"Missing required input: {in_path}")
 
     tx = pd.read_csv(in_path)
-    tx = _ensure_unified_columns(tx, logger)
 
-    # Normalize transaction types to stabilize downstream analytics.
-    if "transaction_type" in tx.columns:
-        tx["transaction_type_raw"] = tx["transaction_type"]
-        tx["transaction_type"] = tx["transaction_type"].apply(_normalize_transaction_type)
+    # Backfill legacy/alt-schema unified outputs into the pipeline contract.
+    # unify_ppf may emit raw field names (e.g., filer_first/filer_last, tx_type_raw, amount_raw).
+    # This block normalizes those into the columns expected downstream.
+    if "source_file" not in tx.columns:
+        # Prefer a stable identifier if present; otherwise fall back to empty string.
+        if "report_id" in tx.columns:
+            tx["source_file"] = tx["report_id"].astype(str)
+        elif "report_uuid" in tx.columns:
+            tx["source_file"] = tx["report_uuid"].astype(str)
+        else:
+            tx["source_file"] = ""
 
+    if "source_page" not in tx.columns:
+        tx["source_page"] = ""
+
+    if "official_name" not in tx.columns:
+        if "filer_first" in tx.columns or "filer_last" in tx.columns:
+            first = tx.get("filer_first", "").astype(str).fillna("")
+            last = tx.get("filer_last", "").astype(str).fillna("")
+            tx["official_name"] = (first.str.strip() + " " + last.str.strip()).str.strip()
+        else:
+            tx["official_name"] = ""
+
+    if "filing_datetime" not in tx.columns:
+        # Use best-available raw date/time field and normalize to UTC.
+        for candidate in ["date_received_raw", "date_filed_raw", "date_created_raw"]:
+            if candidate in tx.columns:
+                tx["filing_datetime"] = pd.to_datetime(tx[candidate], errors="coerce", utc=True)
+                break
+        if "filing_datetime" not in tx.columns:
+            tx["filing_datetime"] = pd.NaT
+
+    if "amount_bucket_raw" not in tx.columns:
+        # Preserve original bucket string if present; otherwise use raw amount field.
+        if "amount_bucket" in tx.columns:
+            tx["amount_bucket_raw"] = tx["amount_bucket"].astype(str)
+        elif "amount_raw" in tx.columns:
+            tx["amount_bucket_raw"] = tx["amount_raw"].astype(str)
+        else:
+            tx["amount_bucket_raw"] = ""
+
+    if "asset_name" not in tx.columns:
+        for candidate in ["asset_raw", "asset", "security", "issuer_raw"]:
+            if candidate in tx.columns:
+                tx["asset_name"] = tx[candidate].astype(str)
+                break
+        if "asset_name" not in tx.columns:
+            tx["asset_name"] = ""
+
+    if "transaction_type" not in tx.columns:
+        if "tx_type_raw" in tx.columns:
+            tx["transaction_type"] = tx["tx_type_raw"].astype(str)
+        elif "transaction_type_raw" in tx.columns:
+            tx["transaction_type"] = tx["transaction_type_raw"].astype(str)
+        else:
+            tx["transaction_type"] = ""
+
+    missing = [c for c in TX_REQUIRED_COLUMNS if c not in tx.columns]
+    if missing:
+        raise ValueError(f"Unified transactions missing required columns: {missing}")
 
     stats = {c: float(tx[c].isna().mean()) for c in TX_REQUIRED_COLUMNS}
     logger.info("Tx contract ok=True stats=%s", stats)

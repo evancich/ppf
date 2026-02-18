@@ -1,0 +1,754 @@
+2026-02-18T01:17:35Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:17:35Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:17:35Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:17:35Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:17:35Z | INFO     | ppf_pipeline | Created mapping skeleton: /home/vboxuser/work/ppf/ppf/temp/ppf/data/reference/asset_to_sector_mapping.csv
+2026-02-18T01:17:35Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.002s
+2026-02-18T01:17:35Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:17:35Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.003s
+2026-02-18T01:17:35Z | ERROR    | ppf_pipeline | Pipeline failed
+Traceback (most recent call last):
+  File "/home/vboxuser/work/ppf/ppf/temp/ppf/ppf_pipeline.py", line 530, in main
+    tx, meta = enrich_transactions(project_root, logger)
+               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vboxuser/work/ppf/ppf/temp/ppf/ppf_pipeline.py", line 222, in enrich_transactions
+    raise ValueError(f"Unified transactions missing required columns: {missing}")
+ValueError: Unified transactions missing required columns: ['transaction_date', 'owner']
+2026-02-18T01:17:35Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:17:35Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=1
+2026-02-18T01:18:43Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:18:43Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:18:43Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:18:43Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:18:43Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T01:18:43Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:18:43Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 1.0, 'transaction_date': 1.0, 'owner': 1.0, 'transaction_type': 1.0, 'amount_bucket_raw': 1.0, 'asset_name': 1.0}
+2026-02-18T01:18:43Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=27 cols=25
+2026-02-18T01:18:43Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=1
+2026-02-18T01:18:43Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.024s
+2026-02-18T01:18:43Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T01:18:43Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=1.0000
+2026-02-18T01:18:43Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=27
+2026-02-18T01:18:43Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=0.018s
+2026-02-18T01:18:43Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T01:18:43Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T01:18:43Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.007s
+2026-02-18T01:18:43Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T01:18:43Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T01:18:43Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T01:18:43Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:18:43Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T01:20:20Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:20:20Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:20:20Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:20:20Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:20:20Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T01:20:20Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:20:20Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 1.0, 'transaction_date': 1.0, 'owner': 1.0, 'transaction_type': 1.0, 'amount_bucket_raw': 1.0, 'asset_name': 1.0}
+2026-02-18T01:20:20Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=27 cols=25
+2026-02-18T01:20:20Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=1
+2026-02-18T01:20:20Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.017s
+2026-02-18T01:20:20Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T01:20:20Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=0 checked=0
+2026-02-18T01:20:20Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=1.0000
+2026-02-18T01:20:20Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=27
+2026-02-18T01:20:20Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=0.016s
+2026-02-18T01:20:20Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T01:20:20Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T01:20:20Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.005s
+2026-02-18T01:20:20Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T01:20:20Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T01:20:20Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.002s
+2026-02-18T01:20:20Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:20:20Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T01:21:34Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:21:34Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:21:34Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:21:34Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:21:34Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T01:21:34Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:21:34Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 1.0, 'filing_datetime': 1.0, 'transaction_date': 1.0, 'owner': 1.0, 'transaction_type': 1.0, 'amount_bucket_raw': 1.0, 'asset_name': 1.0}
+2026-02-18T01:21:34Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=27 cols=25
+2026-02-18T01:21:34Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=1
+2026-02-18T01:21:34Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.014s
+2026-02-18T01:21:34Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T01:21:34Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=0 checked=0
+2026-02-18T01:21:34Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=1.0000
+2026-02-18T01:21:34Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=27
+2026-02-18T01:21:34Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=0.013s
+2026-02-18T01:21:34Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T01:21:34Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T01:21:34Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.003s
+2026-02-18T01:21:34Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T01:21:34Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T01:21:34Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.002s
+2026-02-18T01:21:34Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:21:34Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T01:22:20Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:22:20Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:22:20Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:22:20Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:22:20Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T01:22:20Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:22:20Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 1.0, 'filing_datetime': 1.0, 'transaction_date': 1.0, 'owner': 1.0, 'transaction_type': 0.0, 'amount_bucket_raw': 1.0, 'asset_name': 0.0}
+2026-02-18T01:22:20Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=25
+2026-02-18T01:22:20Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=208
+2026-02-18T01:22:20Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.051s
+2026-02-18T01:22:20Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T01:22:22Z | INFO     | ppf_pipeline | Auto-mapping updated mapping_path=/home/vboxuser/work/ppf/ppf/temp/ppf/data/reference/asset_to_sector_mapping.csv updated_rows=1
+2026-02-18T01:22:22Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=1 checked=5
+2026-02-18T01:22:22Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=0.9952
+2026-02-18T01:22:22Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=207
+2026-02-18T01:22:22Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=1.580s
+2026-02-18T01:22:22Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T01:22:22Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T01:22:22Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.002s
+2026-02-18T01:22:22Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T01:22:22Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T01:22:22Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T01:22:22Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:22:22Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T01:24:57Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:24:57Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:24:57Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:24:57Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:24:57Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T01:24:57Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:24:57Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 1.0, 'transaction_date': 1.0, 'owner': 1.0, 'transaction_type': 0.0, 'amount_bucket_raw': 1.0, 'asset_name': 0.0}
+2026-02-18T01:24:57Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=25
+2026-02-18T01:24:57Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=208
+2026-02-18T01:24:57Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.020s
+2026-02-18T01:24:57Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T01:25:00Z | INFO     | ppf_pipeline | Auto-mapping updated mapping_path=/home/vboxuser/work/ppf/ppf/temp/ppf/data/reference/asset_to_sector_mapping.csv updated_rows=3
+2026-02-18T01:25:00Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=3 checked=3
+2026-02-18T01:25:00Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=0.0000
+2026-02-18T01:25:00Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=0
+2026-02-18T01:25:00Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=3.393s
+2026-02-18T01:25:00Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T01:25:00Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T01:25:00Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.002s
+2026-02-18T01:25:00Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T01:25:00Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T01:25:00Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T01:25:00Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:25:00Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T01:26:05Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:26:05Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:26:05Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:26:05Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:26:05Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T01:26:05Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:26:05Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 1.0, 'transaction_date': 0.0, 'owner': 1.0, 'transaction_type': 0.0, 'amount_bucket_raw': 1.0, 'asset_name': 0.0}
+2026-02-18T01:26:05Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=25
+2026-02-18T01:26:05Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=208
+2026-02-18T01:26:05Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.024s
+2026-02-18T01:26:05Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T01:26:30Z | INFO     | ppf_pipeline | Auto-mapping progress updated=25 checked=32
+2026-02-18T01:26:54Z | INFO     | ppf_pipeline | Auto-mapping progress updated=50 checked=75
+2026-02-18T01:27:23Z | INFO     | ppf_pipeline | Auto-mapping progress updated=75 checked=114
+2026-02-18T01:27:35Z | INFO     | ppf_pipeline | Auto-mapping updated mapping_path=/home/vboxuser/work/ppf/ppf/temp/ppf/data/reference/asset_to_sector_mapping.csv updated_rows=87
+2026-02-18T01:27:35Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=87 checked=131
+2026-02-18T01:27:35Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=0.2452
+2026-02-18T01:27:35Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=51
+2026-02-18T01:27:35Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=89.788s
+2026-02-18T01:27:35Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T01:27:35Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T01:27:35Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.008s
+2026-02-18T01:27:35Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T01:27:35Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T01:27:35Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T01:27:35Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:27:35Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T01:29:06Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:29:06Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:29:06Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:29:06Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:29:06Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T01:29:06Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:29:06Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 1.0, 'transaction_date': 0.0, 'owner': 1.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T01:29:06Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=25
+2026-02-18T01:29:06Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=208
+2026-02-18T01:29:06Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.029s
+2026-02-18T01:29:06Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T01:29:15Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=0 checked=131
+2026-02-18T01:29:15Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=0.2452
+2026-02-18T01:29:15Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=51
+2026-02-18T01:29:15Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=8.887s
+2026-02-18T01:29:15Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T01:29:15Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T01:29:15Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.003s
+2026-02-18T01:29:15Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T01:29:15Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T01:29:15Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T01:29:15Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:29:15Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T01:30:22Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:30:22Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:30:22Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:30:22Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:30:22Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T01:30:22Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:30:22Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 1.0, 'transaction_date': 0.0, 'owner': 0.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T01:30:22Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=3 cols=25
+2026-02-18T01:30:22Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=3
+2026-02-18T01:30:22Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.015s
+2026-02-18T01:30:22Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T01:30:22Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=0 checked=1
+2026-02-18T01:30:22Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=1.0000
+2026-02-18T01:30:22Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=3
+2026-02-18T01:30:22Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=0.380s
+2026-02-18T01:30:22Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T01:30:22Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T01:30:22Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.009s
+2026-02-18T01:30:22Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T01:30:22Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T01:30:22Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T01:30:22Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:30:22Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T01:31:28Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:31:28Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:31:28Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:31:28Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:31:28Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T01:31:28Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:31:28Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': nan, 'source_page': nan, 'official_name': nan, 'filing_datetime': nan, 'transaction_date': nan, 'owner': nan, 'transaction_type': nan, 'amount_bucket_raw': nan, 'asset_name': nan}
+2026-02-18T01:31:28Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=0 cols=25
+2026-02-18T01:31:28Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=0
+2026-02-18T01:31:28Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.016s
+2026-02-18T01:31:28Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T01:31:28Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=0 checked=0
+2026-02-18T01:31:28Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=1.0000
+2026-02-18T01:31:28Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=0
+2026-02-18T01:31:28Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=0.022s
+2026-02-18T01:31:28Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T01:31:28Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T01:31:28Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.002s
+2026-02-18T01:31:28Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T01:31:28Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T01:31:28Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T01:31:28Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:31:28Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T01:32:13Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:32:13Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:32:13Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:32:13Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:32:13Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T01:32:13Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:32:13Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 1.0, 'transaction_date': 0.0, 'owner': 1.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T01:32:13Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=25
+2026-02-18T01:32:13Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=208
+2026-02-18T01:32:13Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.025s
+2026-02-18T01:32:13Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T01:32:21Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=0 checked=131
+2026-02-18T01:32:22Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=0.2644
+2026-02-18T01:32:22Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=55
+2026-02-18T01:32:22Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=8.155s
+2026-02-18T01:32:22Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T01:32:22Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T01:32:22Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.002s
+2026-02-18T01:32:22Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T01:32:22Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T01:32:22Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T01:32:22Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:32:22Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T01:34:08Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:34:08Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:34:08Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:34:08Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:34:08Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T01:34:08Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:34:08Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 1.0, 'transaction_date': 1.0, 'owner': 0.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T01:34:08Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=25
+2026-02-18T01:34:08Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=208
+2026-02-18T01:34:08Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.038s
+2026-02-18T01:34:08Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T01:34:17Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=0 checked=131
+2026-02-18T01:34:17Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=0.2644
+2026-02-18T01:34:17Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=55
+2026-02-18T01:34:17Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=8.437s
+2026-02-18T01:34:17Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T01:34:17Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T01:34:17Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.002s
+2026-02-18T01:34:17Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T01:34:17Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T01:34:17Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T01:34:17Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:34:17Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T01:35:10Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:35:10Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:35:10Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:35:10Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:35:10Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T01:35:10Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:35:10Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 1.0, 'transaction_date': 1.0, 'owner': 0.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T01:35:10Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=25
+2026-02-18T01:35:10Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=208
+2026-02-18T01:35:10Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.027s
+2026-02-18T01:35:10Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T01:35:18Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=0 checked=131
+2026-02-18T01:35:18Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=0.2644
+2026-02-18T01:35:18Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=55
+2026-02-18T01:35:18Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=7.917s
+2026-02-18T01:35:18Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T01:35:18Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T01:35:18Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.005s
+2026-02-18T01:35:18Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T01:35:18Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T01:35:18Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T01:35:18Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:35:18Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T01:36:44Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:36:44Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:36:44Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:36:44Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:36:44Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T01:36:44Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:36:44Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 1.0, 'filing_datetime': 1.0, 'transaction_date': 1.0, 'owner': 0.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T01:36:44Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=25
+2026-02-18T01:36:44Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=131
+2026-02-18T01:36:44Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.020s
+2026-02-18T01:36:44Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T01:36:52Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=0 checked=131
+2026-02-18T01:36:52Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=0.2644
+2026-02-18T01:36:52Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=55
+2026-02-18T01:36:52Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=8.475s
+2026-02-18T01:36:52Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T01:36:52Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T01:36:52Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.002s
+2026-02-18T01:36:52Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T01:36:52Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T01:36:52Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T01:36:52Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:36:52Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T01:38:58Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:38:58Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:38:58Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:38:58Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:38:58Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T01:38:58Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:38:58Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 1.0, 'filing_datetime': 1.0, 'transaction_date': 1.0, 'owner': 0.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T01:38:59Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=25
+2026-02-18T01:38:59Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=131
+2026-02-18T01:38:59Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.023s
+2026-02-18T01:38:59Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T01:39:07Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=0 checked=131
+2026-02-18T01:39:07Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=0.2644
+2026-02-18T01:39:07Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=55
+2026-02-18T01:39:07Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=8.489s
+2026-02-18T01:39:07Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T01:39:07Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T01:39:07Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.002s
+2026-02-18T01:39:07Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T01:39:07Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T01:39:07Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T01:39:07Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:39:07Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T01:40:59Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:40:59Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:40:59Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:40:59Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:40:59Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T01:40:59Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:40:59Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 1.0, 'transaction_date': 0.0, 'owner': 0.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T01:40:59Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=25
+2026-02-18T01:40:59Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=131
+2026-02-18T01:40:59Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.021s
+2026-02-18T01:40:59Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T01:41:07Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=0 checked=131
+2026-02-18T01:41:07Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=0.2644
+2026-02-18T01:41:07Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=55
+2026-02-18T01:41:07Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=8.170s
+2026-02-18T01:41:07Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T01:41:07Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T01:41:07Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.012s
+2026-02-18T01:41:07Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T01:41:07Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T01:41:07Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T01:41:07Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:41:07Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T01:42:02Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:42:02Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:42:02Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:42:02Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:42:02Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T01:42:02Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:42:02Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 1.0, 'transaction_date': 0.0, 'owner': 0.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T01:42:02Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=25
+2026-02-18T01:42:02Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=131
+2026-02-18T01:42:02Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.031s
+2026-02-18T01:42:02Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T01:42:10Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=0 checked=131
+2026-02-18T01:42:10Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=0.2644
+2026-02-18T01:42:10Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=55
+2026-02-18T01:42:10Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=8.533s
+2026-02-18T01:42:10Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T01:42:10Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T01:42:10Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.010s
+2026-02-18T01:42:10Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T01:42:10Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T01:42:10Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T01:42:10Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:42:10Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T01:43:36Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:43:36Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:43:36Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:43:36Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:43:36Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T01:43:36Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:43:36Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 1.0, 'transaction_date': 0.0, 'owner': 0.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T01:43:36Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=27
+2026-02-18T01:43:36Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=131
+2026-02-18T01:43:36Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.024s
+2026-02-18T01:43:36Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T01:43:44Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=0 checked=131
+2026-02-18T01:43:44Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=0.2644
+2026-02-18T01:43:44Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=55
+2026-02-18T01:43:44Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=8.175s
+2026-02-18T01:43:44Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T01:43:44Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T01:43:44Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.002s
+2026-02-18T01:43:44Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T01:43:44Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T01:43:44Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T01:43:44Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:43:44Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T01:45:27Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:45:27Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:45:27Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:45:27Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:45:27Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T01:45:27Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:45:27Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 1.0, 'transaction_date': 0.0, 'owner': 0.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T01:45:27Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=27
+2026-02-18T01:45:27Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=131
+2026-02-18T01:45:27Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.016s
+2026-02-18T01:45:27Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T01:45:29Z | DEBUG    | ppf_pipeline | yfinance info failed ticker=FTGC err=RequestException('Failed to perform, curl: (23) Failure writing output to destination, passed 13 returned 0. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2026-02-18T01:45:35Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=0 checked=131
+2026-02-18T01:45:35Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=0.2644
+2026-02-18T01:45:35Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=55
+2026-02-18T01:45:35Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=8.542s
+2026-02-18T01:45:35Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T01:45:35Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T01:45:35Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.002s
+2026-02-18T01:45:35Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T01:45:35Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T01:45:35Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T01:45:35Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:45:35Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T01:45:57Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:45:57Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:45:57Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:45:57Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:45:57Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T01:45:57Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:45:57Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 1.0, 'transaction_date': 0.0, 'owner': 0.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T01:45:57Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=27
+2026-02-18T01:45:57Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=131
+2026-02-18T01:45:57Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.018s
+2026-02-18T01:45:57Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T01:46:05Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=0 checked=131
+2026-02-18T01:46:05Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=0.2644
+2026-02-18T01:46:05Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=55
+2026-02-18T01:46:05Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=8.607s
+2026-02-18T01:46:05Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T01:46:05Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T01:46:05Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.002s
+2026-02-18T01:46:05Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T01:46:05Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T01:46:05Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T01:46:05Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:46:05Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T01:47:35Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:47:35Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:47:35Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:47:35Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:47:35Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T01:47:35Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:47:35Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 0.0, 'transaction_date': 0.0, 'owner': 0.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T01:47:35Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=25
+2026-02-18T01:47:35Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=131
+2026-02-18T01:47:35Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.034s
+2026-02-18T01:47:35Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T01:47:43Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=0 checked=131
+2026-02-18T01:47:43Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=0.2500
+2026-02-18T01:47:43Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=52
+2026-02-18T01:47:43Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=8.268s
+2026-02-18T01:47:43Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T01:47:43Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T01:47:43Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.007s
+2026-02-18T01:47:43Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T01:47:43Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T01:47:43Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.002s
+2026-02-18T01:47:43Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:47:43Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T01:50:08Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:50:08Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:50:08Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:50:08Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:50:08Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T01:50:08Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:50:08Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 0.0, 'transaction_date': 0.0, 'owner': 0.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T01:50:08Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=24
+2026-02-18T01:50:08Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=131
+2026-02-18T01:50:08Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.028s
+2026-02-18T01:50:08Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T01:50:16Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=0 checked=131
+2026-02-18T01:50:16Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=0.2500
+2026-02-18T01:50:16Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=52
+2026-02-18T01:50:16Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=8.187s
+2026-02-18T01:50:16Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T01:50:16Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T01:50:16Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.007s
+2026-02-18T01:50:16Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T01:50:16Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T01:50:16Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T01:50:16Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:50:16Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T01:54:29Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T01:54:29Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:54:29Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T01:54:29Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T01:54:29Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T01:54:29Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T01:54:29Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 0.0, 'transaction_date': 0.0, 'owner': 0.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T01:54:29Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=23
+2026-02-18T01:54:29Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=113
+2026-02-18T01:54:29Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.019s
+2026-02-18T01:54:29Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T01:54:38Z | INFO     | ppf_pipeline | Auto-mapping updated mapping_path=/home/vboxuser/work/ppf/ppf/temp/ppf/data/reference/asset_to_sector_mapping.csv updated_rows=2
+2026-02-18T01:54:38Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=2 checked=113
+2026-02-18T01:54:38Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=0.4375
+2026-02-18T01:54:38Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=91
+2026-02-18T01:54:38Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=8.782s
+2026-02-18T01:54:38Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T01:54:38Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T01:54:38Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.007s
+2026-02-18T01:54:38Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T01:54:38Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T01:54:38Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T01:54:38Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T01:54:38Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T02:01:55Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T02:01:55Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T02:01:55Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T02:01:55Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T02:01:55Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T02:01:55Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T02:01:55Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 0.0, 'transaction_date': 0.0, 'owner': 0.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T02:01:55Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=23
+2026-02-18T02:01:55Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=111
+2026-02-18T02:01:55Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.018s
+2026-02-18T02:01:55Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T02:02:03Z | INFO     | ppf_pipeline | Auto-mapping updated mapping_path=/home/vboxuser/work/ppf/ppf/temp/ppf/data/reference/asset_to_sector_mapping.csv updated_rows=1
+2026-02-18T02:02:03Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=1 checked=111
+2026-02-18T02:02:03Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=0.4279
+2026-02-18T02:02:03Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=89
+2026-02-18T02:02:03Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=7.530s
+2026-02-18T02:02:03Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T02:02:03Z | INFO     | ppf_pipeline | Impulses built rows=47 dates=10 sectors=9 officials=10
+2026-02-18T02:02:03Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.011s
+2026-02-18T02:02:03Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T02:02:03Z | INFO     | ppf_pipeline | PPF sector scores rows=369 dates=41 sectors=9
+2026-02-18T02:02:03Z | INFO     | ppf_pipeline | Wrote snapshot: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_scores_sector_snapshot_latest.csv rows=9 latest_date=2026-02-15
+2026-02-18T02:02:03Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.116s
+2026-02-18T02:02:03Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T02:02:03Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T02:03:11Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T02:03:11Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T02:03:11Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T02:03:11Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T02:03:11Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T02:03:11Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T02:03:11Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 0.0, 'transaction_date': 0.0, 'owner': 0.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T02:03:11Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=48 cols=21
+2026-02-18T02:03:11Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=2
+2026-02-18T02:03:11Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.015s
+2026-02-18T02:03:11Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T02:03:16Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=0 checked=2
+2026-02-18T02:03:16Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=1.0000
+2026-02-18T02:03:16Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=48
+2026-02-18T02:03:16Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=5.407s
+2026-02-18T02:03:16Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T02:03:16Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T02:03:16Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.002s
+2026-02-18T02:03:16Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T02:03:16Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T02:03:16Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T02:03:16Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T02:03:16Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T02:04:29Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T02:04:29Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T02:04:29Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T02:04:29Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T02:04:29Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T02:04:29Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T02:04:29Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 0.0, 'transaction_date': 0.0, 'owner': 0.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T02:04:29Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=21
+2026-02-18T02:04:29Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=34
+2026-02-18T02:04:29Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.018s
+2026-02-18T02:04:29Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T02:04:50Z | INFO     | ppf_pipeline | Auto-mapping progress updated=25 checked=32
+2026-02-18T02:04:54Z | INFO     | ppf_pipeline | Auto-mapping updated mapping_path=/home/vboxuser/work/ppf/ppf/temp/ppf/data/reference/asset_to_sector_mapping.csv updated_rows=27
+2026-02-18T02:04:54Z | INFO     | ppf_pipeline | Auto-mapping complete updated_rows=27 checked=34
+2026-02-18T02:04:54Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=0.6971
+2026-02-18T02:04:54Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=145
+2026-02-18T02:04:54Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=24.388s
+2026-02-18T02:04:54Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T02:04:54Z | INFO     | ppf_pipeline | Impulses built rows=9 dates=1 sectors=9 officials=1
+2026-02-18T02:04:54Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.005s
+2026-02-18T02:04:54Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T02:04:54Z | INFO     | ppf_pipeline | PPF sector scores rows=9 dates=1 sectors=9
+2026-02-18T02:04:54Z | INFO     | ppf_pipeline | Wrote snapshot: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_scores_sector_snapshot_latest.csv rows=9 latest_date=2026-02-18
+2026-02-18T02:04:54Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.006s
+2026-02-18T02:04:54Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T02:04:54Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T02:07:20Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T02:07:20Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T02:07:20Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T02:07:20Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T02:07:20Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T02:07:20Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T02:07:20Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 0.0, 'transaction_date': 0.0, 'owner': 0.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T02:07:20Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=21
+2026-02-18T02:07:20Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=99
+2026-02-18T02:07:20Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.020s
+2026-02-18T02:07:20Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T02:07:20Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=1.0000
+2026-02-18T02:07:20Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=208
+2026-02-18T02:07:20Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=0.019s
+2026-02-18T02:07:20Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T02:07:20Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T02:07:20Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.002s
+2026-02-18T02:07:20Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T02:07:20Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T02:07:20Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T02:07:20Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T02:07:20Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T02:09:18Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T02:09:18Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T02:09:18Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T02:09:18Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T02:09:18Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T02:09:18Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T02:09:18Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 0.0, 'transaction_date': 0.0, 'owner': 0.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T02:09:18Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=22
+2026-02-18T02:09:18Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=99
+2026-02-18T02:09:18Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.026s
+2026-02-18T02:09:18Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T02:09:18Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=0.016s
+2026-02-18T02:09:18Z | ERROR    | ppf_pipeline | Pipeline failed
+Traceback (most recent call last):
+  File "/home/vboxuser/work/ppf/ppf/temp/ppf/.venv/lib/python3.13/site-packages/pandas/core/indexes/base.py", line 3641, in get_loc
+    return self._engine.get_loc(casted_key)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 168, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 197, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7668, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7676, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'sector'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/vboxuser/work/ppf/ppf/temp/ppf/ppf_pipeline.py", line 550, in main
+    mapped, meta = apply_mapping(tx, mapping, project_root, logger)
+                   ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vboxuser/work/ppf/ppf/temp/ppf/ppf_pipeline.py", line 378, in apply_mapping
+    joined["sector"] = joined["sector"].fillna("").astype(str).str.strip()
+                       ~~~~~~^^^^^^^^^^
+  File "/home/vboxuser/work/ppf/ppf/temp/ppf/.venv/lib/python3.13/site-packages/pandas/core/frame.py", line 4378, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File "/home/vboxuser/work/ppf/ppf/temp/ppf/.venv/lib/python3.13/site-packages/pandas/core/indexes/base.py", line 3648, in get_loc
+    raise KeyError(key) from err
+KeyError: 'sector'
+2026-02-18T02:09:18Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T02:09:18Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=1
+2026-02-18T02:09:58Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T02:09:58Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T02:09:58Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T02:09:58Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T02:09:58Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T02:09:58Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T02:09:58Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 0.0, 'transaction_date': 0.0, 'owner': 0.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T02:09:58Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=21
+2026-02-18T02:09:58Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=99
+2026-02-18T02:09:58Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.017s
+2026-02-18T02:09:58Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T02:09:58Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=1.0000
+2026-02-18T02:09:58Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=208
+2026-02-18T02:09:58Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=0.023s
+2026-02-18T02:09:58Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T02:09:58Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T02:09:58Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.005s
+2026-02-18T02:09:58Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T02:09:58Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T02:09:58Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T02:09:58Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T02:09:58Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T02:11:06Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T02:11:06Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T02:11:06Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T02:11:06Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T02:11:06Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T02:11:06Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T02:11:06Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 0.0, 'transaction_date': 0.0, 'owner': 0.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T02:11:06Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=21
+2026-02-18T02:11:06Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=99
+2026-02-18T02:11:06Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.016s
+2026-02-18T02:11:06Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T02:11:06Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=1.0000
+2026-02-18T02:11:06Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=208
+2026-02-18T02:11:06Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=0.016s
+2026-02-18T02:11:06Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T02:11:06Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T02:11:06Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.002s
+2026-02-18T02:11:06Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T02:11:06Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T02:11:06Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T02:11:06Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T02:11:06Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T02:12:58Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T02:12:58Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T02:12:58Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T02:12:58Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T02:12:58Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T02:12:58Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T02:12:58Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 0.0, 'transaction_date': 0.0, 'owner': 0.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T02:12:58Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=21
+2026-02-18T02:12:58Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=99
+2026-02-18T02:12:58Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.021s
+2026-02-18T02:12:58Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T02:12:58Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=1.0000
+2026-02-18T02:12:58Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=208
+2026-02-18T02:12:58Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=0.019s
+2026-02-18T02:12:58Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T02:12:58Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T02:12:58Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.003s
+2026-02-18T02:12:58Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T02:12:58Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T02:12:58Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T02:12:58Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T02:12:58Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0
+2026-02-18T02:18:37Z | INFO     | ppf_pipeline | === PPF Pipeline start ===
+2026-02-18T02:18:37Z | INFO     | ppf_pipeline | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T02:18:37Z | INFO     | ppf_pipeline | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_pipeline.log
+2026-02-18T02:18:37Z | INFO     | ppf_pipeline | Stage start: ensure_reference_files
+2026-02-18T02:18:37Z | INFO     | ppf_pipeline | Stage end: ensure_reference_files elapsed=0.000s
+2026-02-18T02:18:37Z | INFO     | ppf_pipeline | Stage start: enrich_transactions
+2026-02-18T02:18:37Z | INFO     | ppf_pipeline | Tx contract ok=True stats={'source_file': 0.0, 'source_page': 0.0, 'official_name': 0.0, 'filing_datetime': 0.0, 'transaction_date': 0.0, 'owner': 0.0, 'transaction_type': 0.0, 'amount_bucket_raw': 0.0, 'asset_name': 0.0}
+2026-02-18T02:18:37Z | INFO     | ppf_pipeline | Wrote enriched tx: /home/vboxuser/work/ppf/ppf/temp/ppf/data/processed/transactions_enriched.csv rows=208 cols=21
+2026-02-18T02:18:37Z | INFO     | ppf_pipeline | Wrote asset universe: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_asset_universe.csv rows=99
+2026-02-18T02:18:37Z | INFO     | ppf_pipeline | Stage end: enrich_transactions elapsed=0.026s
+2026-02-18T02:18:37Z | INFO     | ppf_pipeline | Stage start: load_and_apply_mapping
+2026-02-18T02:18:37Z | INFO     | ppf_pipeline | Mapping coverage: unmapped_fraction=1.0000
+2026-02-18T02:18:37Z | INFO     | ppf_pipeline | Wrote unmapped assets: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=208
+2026-02-18T02:18:37Z | INFO     | ppf_pipeline | Stage end: load_and_apply_mapping elapsed=0.034s
+2026-02-18T02:18:37Z | INFO     | ppf_pipeline | Stage start: build_impulses_sector_daily
+2026-02-18T02:18:37Z | WARNING  | ppf_pipeline | No mappable BUY/SELL transactions after filters.
+2026-02-18T02:18:37Z | INFO     | ppf_pipeline | Stage end: build_impulses_sector_daily elapsed=0.003s
+2026-02-18T02:18:37Z | INFO     | ppf_pipeline | Stage start: compute_ppf_sector_daily
+2026-02-18T02:18:37Z | WARNING  | ppf_pipeline | Impulses empty; scores will be empty.
+2026-02-18T02:18:37Z | INFO     | ppf_pipeline | Stage end: compute_ppf_sector_daily elapsed=0.001s
+2026-02-18T02:18:37Z | INFO     | ppf_pipeline | Wrote manifest: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_pipeline_manifest.json
+2026-02-18T02:18:37Z | INFO     | ppf_pipeline | === PPF Pipeline end === exit_code=0

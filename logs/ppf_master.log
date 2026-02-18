@@ -1,8 +1,110 @@
-2026-02-18T00:32:59Z | INFO    | ppf_master | Logging initialized
-2026-02-18T00:32:59Z | INFO    | ppf_master | log_file=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_master.log
-2026-02-18T00:32:59Z | INFO    | ppf_master | === PPF Master start ===
-2026-02-18T00:32:59Z | INFO    | ppf_master | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
-2026-02-18T00:32:59Z | INFO    | ppf_master | === Stage: Senate crawl ===
-2026-02-18T00:32:59Z | INFO    | ppf_master | RUN: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2012-01-01 --max-pages 0 --download
-2026-02-18T00:33:04Z | INFO    | ppf_master | [subprocess] /home/vboxuser/work/ppf/ppf/temp/ppf/ppf_crawl_efd.py:77: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
-2026-02-18T00:33:04Z | INFO    | ppf_master | [subprocess]   return datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+2026-02-18T00:59:56Z | INFO    | ppf_master | Logging initialized
+2026-02-18T00:59:56Z | INFO    | ppf_master | log_file=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_master.log
+2026-02-18T00:59:56Z | INFO    | ppf_master | === PPF Master start ===
+2026-02-18T00:59:56Z | INFO    | ppf_master | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T00:59:56Z | INFO    | ppf_master | === Stage: Senate crawl ===
+2026-02-18T00:59:56Z | INFO    | ppf_master | RUN: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2012-01-01 --max-pages 0 --download --overwrite
+2026-02-18T01:00:02Z | INFO    | ppf_master | [subprocess] /home/vboxuser/work/ppf/ppf/temp/ppf/ppf_crawl_efd.py:77: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+2026-02-18T01:00:02Z | INFO    | ppf_master | [subprocess]   return datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+2026-02-18T01:00:48Z | WARNING | ppf_master | Interrupted by user.
+2026-02-18T01:10:27Z | INFO    | ppf_master | Logging initialized
+2026-02-18T01:10:27Z | INFO    | ppf_master | log_file=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_master.log
+2026-02-18T01:10:27Z | INFO    | ppf_master | === PPF Master start ===
+2026-02-18T01:10:27Z | INFO    | ppf_master | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:10:27Z | INFO    | ppf_master | === Stage: Senate crawl ===
+2026-02-18T01:10:27Z | INFO    | ppf_master | RUN: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2012-01-01 --max-pages 0 --download
+2026-02-18T01:10:32Z | INFO    | ppf_master | [subprocess] /home/vboxuser/work/ppf/ppf/temp/ppf/ppf_crawl_efd.py:77: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+2026-02-18T01:10:32Z | INFO    | ppf_master | [subprocess]   return datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+2026-02-18T01:11:04Z | WARNING | ppf_master | Interrupted by user.
+2026-02-18T01:11:45Z | INFO    | ppf_master | Logging initialized
+2026-02-18T01:11:45Z | INFO    | ppf_master | log_file=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_master.log
+2026-02-18T01:11:45Z | INFO    | ppf_master | === PPF Master start ===
+2026-02-18T01:11:45Z | INFO    | ppf_master | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
+2026-02-18T01:11:45Z | INFO    | ppf_master | === Stage: Senate crawl ===
+2026-02-18T01:11:45Z | INFO    | ppf_master | RUN: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18T01:11:50Z | INFO    | ppf_master | [subprocess] /home/vboxuser/work/ppf/ppf/temp/ppf/ppf_crawl_efd.py:77: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+2026-02-18T01:11:50Z | INFO    | ppf_master | [subprocess]   return datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+2026-02-18T01:12:24Z | WARNING | ppf_master | Interrupted by user.
+2026-02-18 01:15:40,543Z | INFO    | ppf_master | === PPF Master Start ===
+2026-02-18 01:15:40,543Z | INFO    | ppf_master | === Stage: Senate crawl ===
+2026-02-18 01:15:40,543Z | INFO    | ppf_master | RUN: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:15:45,950Z | INFO    | ppf_master | [subprocess] /home/vboxuser/work/ppf/ppf/temp/ppf/ppf_crawl_efd.py:77: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+2026-02-18 01:15:45,950Z | INFO    | ppf_master | [subprocess] return datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+2026-02-18 01:15:45,950Z | INFO    | ppf_master | [subprocess] [2026-02-18T01:15:45Z] fetched page=1 rows=27 total_reports=27
+2026-02-18 01:17:20,557Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:17:34,886Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:17:35,211Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_pipeline.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:17:35,728Z | ERROR   | FATAL: Command failed with code 1
+2026-02-18 01:18:36,418Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:18:42,243Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:18:42,597Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_pipeline.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:20:14,096Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:20:19,818Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:20:20,147Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_pipeline.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose --auto-map-yfinance
+2026-02-18 01:21:27,675Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:21:33,590Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:21:33,950Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_pipeline.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose --auto-map-yfinance
+2026-02-18 01:22:13,607Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:22:19,452Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:22:19,950Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_pipeline.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose --auto-map-yfinance
+2026-02-18 01:23:27,372Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:23:34,373Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:23:34,675Z | ERROR   | FATAL: Command failed with code 2
+2026-02-18 01:24:50,736Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:24:56,479Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:24:56,896Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_pipeline.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose --auto-map-yfinance
+2026-02-18 01:25:52,289Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:26:04,754Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:26:05,141Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_pipeline.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose --auto-map-yfinance
+2026-02-18 01:29:00,038Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:29:05,860Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:29:06,276Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_pipeline.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose --auto-map-yfinance
+2026-02-18 01:30:15,384Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:30:21,238Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:30:21,642Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_pipeline.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose --auto-map-yfinance
+2026-02-18 01:31:15,986Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:31:27,872Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:31:28,238Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_pipeline.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose --auto-map-yfinance
+2026-02-18 01:32:06,542Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:32:12,948Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:32:13,400Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_pipeline.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose --auto-map-yfinance
+2026-02-18 01:33:01,714Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:33:07,610Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:33:08,097Z | ERROR   | FATAL: Command failed with code 1
+2026-02-18 01:33:55,476Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:34:02,317Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:34:07,913Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:34:08,327Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_pipeline.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose --auto-map-yfinance
+2026-02-18 01:35:04,251Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:35:10,068Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:35:10,493Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_pipeline.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose --auto-map-yfinance
+2026-02-18 01:36:37,105Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:36:43,176Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:36:43,693Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_pipeline.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose --auto-map-yfinance
+2026-02-18 01:38:52,404Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:38:58,183Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:38:58,592Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_pipeline.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose --auto-map-yfinance
+2026-02-18 01:40:06,921Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:40:12,647Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:40:12,934Z | ERROR   | FATAL: Command failed with code 2
+2026-02-18 01:40:52,609Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:40:58,387Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:40:58,749Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_pipeline.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose --auto-map-yfinance
+2026-02-18 01:41:54,995Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:42:01,361Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:42:01,743Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_pipeline.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose --auto-map-yfinance
+2026-02-18 01:43:29,999Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:43:35,874Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:43:36,282Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_pipeline.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose --auto-map-yfinance
+2026-02-18 01:45:20,436Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:45:26,555Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:45:26,929Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_pipeline.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose --auto-map-yfinance
+2026-02-18 01:45:49,059Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:45:56,536Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:45:56,949Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_pipeline.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose --auto-map-yfinance
+2026-02-18 01:47:29,072Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:47:34,776Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:47:35,155Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_pipeline.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose --auto-map-yfinance
+2026-02-18 01:50:01,713Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_crawl_efd.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --since 2026-01-01 --max-pages 0 --download
+2026-02-18 01:50:07,668Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u unify_ppf.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose
+2026-02-18 01:50:08,050Z | INFO    | RUNNING: /home/vboxuser/work/ppf/ppf/temp/ppf/.venv/bin/python3 -u ppf_pipeline.py --project-root /home/vboxuser/work/ppf/ppf/temp/ppf --verbose --auto-map-yfinance
