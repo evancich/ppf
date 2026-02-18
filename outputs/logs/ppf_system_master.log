@@ -1,0 +1,26 @@
+2026-02-18 05:58:41,380 [INFO] ============================================================
+2026-02-18 05:58:41,380 [INFO]  BEGINNING PREFLIGHT CHECKS (Target Year: 2024)
+2026-02-18 05:58:41,380 [INFO] ============================================================
+2026-02-18 05:58:42,869 [INFO] [PASS] Core libraries (playwright, bs4, pandas) found.
+2026-02-18 05:58:42,870 [INFO] Validating Playwright browser (Headless=True)...
+2026-02-18 05:58:43,883 [INFO] [PASS] Playwright browser engine is ready.
+2026-02-18 05:58:43,883 [INFO] [PASS] Found ppf_crawl_efd.py
+2026-02-18 05:58:43,883 [INFO] [PASS] Found ppf_house_crawler.py
+2026-02-18 05:58:43,883 [INFO] [PASS] Found unify_ppf.py
+2026-02-18 05:58:43,883 [INFO] [PASS] Found ppf_pipeline.py
+2026-02-18 05:58:43,883 [INFO] >>> PREFLIGHT SUCCESSFUL. System ready for execution.
+
+2026-02-18 05:58:43,883 [INFO] --- [STARTING STAGE: Senate Crawler (eFD)] ---
+2026-02-18 06:01:50,546 [INFO] ======================================================================
+2026-02-18 06:01:50,547 [INFO]  BEGINNING SYSTEM PREFLIGHT (Target Year: 2024)
+2026-02-18 06:01:50,547 [INFO] ======================================================================
+2026-02-18 06:01:50,883 [INFO] [PASS] Core libraries found.
+2026-02-18 06:01:50,883 [INFO] Validating Playwright browser engine...
+2026-02-18 06:01:51,473 [INFO] [PASS] Playwright browser is ready.
+2026-02-18 06:01:51,474 [INFO] [PASS] Script verified: ppf_crawl_efd.py
+2026-02-18 06:01:51,474 [INFO] [PASS] Script verified: ppf_house_crawler.py
+2026-02-18 06:01:51,474 [INFO] [PASS] Script verified: unify_ppf.py
+2026-02-18 06:01:51,474 [INFO] [PASS] Script verified: ppf_pipeline.py
+2026-02-18 06:01:51,474 [INFO] >>> PREFLIGHT SUCCESSFUL. Ready for launch.
+
+2026-02-18 06:01:51,474 [INFO] --- [STARTING STAGE: Senate Crawler (eFD)] ---

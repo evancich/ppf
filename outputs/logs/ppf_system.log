@@ -1,0 +1,16 @@
+2026-02-18 05:54:11,571 [INFO] --- STAGE: PREFLIGHT ---
+2026-02-18 05:54:11,832 [INFO] STARTING: Senate Crawler
+2026-02-18 05:54:12,073 [ERROR] !!! FAILURE: Senate Crawler !!!
+2026-02-18 05:54:12,073 [ERROR] Return Code: 2
+2026-02-18 05:54:12,074 [ERROR] STDERR TAIL:
+usage: ppf_crawl_efd.py [-h] --project-root PROJECT_ROOT [--since SINCE]
+                        [--until UNTIL] [--batch-size BATCH_SIZE]
+                        [--rate-limit-secs RATE_LIMIT_SECS]
+                        [--max-pages MAX_PAGES] [--download] [--overwrite]
+ppf_crawl_efd.py: error: the following arguments are required: --project-root
+
+2026-02-18 05:55:24,652 [INFO] --- STAGE: PREFLIGHT ---
+2026-02-18 05:55:24,776 [INFO] Validating Playwright browser engine...
+2026-02-18 05:55:26,757 [INFO] Playwright browser check: PASSED
+2026-02-18 05:55:26,757 [INFO] Preflight complete.
+2026-02-18 05:55:26,757 [INFO] STARTING: Senate Crawler
