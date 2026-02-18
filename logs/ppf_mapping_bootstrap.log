@@ -1,9 +1,0 @@
-2026-02-15T21:29:43+0000 | INFO     | ppf_mapping_bootstrap | === PPF Mapping Bootstrap start ===
-2026-02-15T21:29:43+0000 | INFO     | ppf_mapping_bootstrap | project_root=/home/vboxuser/work/ppf/ppf/temp/ppf
-2026-02-15T21:29:43+0000 | INFO     | ppf_mapping_bootstrap | log_path=/home/vboxuser/work/ppf/ppf/temp/ppf/logs/ppf_mapping_bootstrap.log
-2026-02-15T21:29:43+0000 | INFO     | ppf_mapping_bootstrap | Loaded asset list: /home/vboxuser/work/ppf/ppf/temp/ppf/outputs/ppf_assets_unmapped.csv rows=18 cols=4
-2026-02-15T21:29:43+0000 | INFO     | ppf_mapping_bootstrap | Skeleton built: rows=18
-2026-02-15T21:29:43+0000 | INFO     | ppf_mapping_bootstrap | Merged mapping: rows=18 (existing=0 skeleton=18)
-2026-02-15T21:29:43+0000 | INFO     | ppf_mapping_bootstrap | Wrote mapping file: /home/vboxuser/work/ppf/ppf/temp/ppf/data/reference/asset_to_sector_mapping.csv rows=18
-2026-02-15T21:29:43+0000 | INFO     | ppf_mapping_bootstrap | Remaining unmapped (sector blank): 18
-2026-02-15T21:29:43+0000 | INFO     | ppf_mapping_bootstrap | === PPF Mapping Bootstrap end === exit_code=0

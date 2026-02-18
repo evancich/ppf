@@ -1,582 +1,624 @@
 #!/usr/bin/env python3
 """
-PPF Unifier (Disclosures-Only)
+unify_ppf.py
 
-Goal:
-- Parse table-native Senate eFD PTR PDFs into a canonical transaction ledger.
-- Parse scanned/paper PTR pages with checkbox/X-mark semantics into the same ledger (template-based).
-- Emit:
-  - outputs/ppf_transactions_unified.csv
-  - outputs/ppf_transactions_unified.parquet (if pyarrow available)
-  - outputs/debug_overlay_*.png for scanned forms (optional)
+Unifies transaction records into a single canonical CSV for downstream PPF pipeline.
 
-Design constraints:
-- Availability anchored on filing_datetime extracted from PDF text.
-- Amount ranges preserved as bucket text + min/max floats (ordinal-friendly).
-- All parsing is deterministic and auditable (row-level provenance included).
+Key behaviors:
+- Reads outputs/efd_reports_index.csv (Senate eFD crawl index)
+- Parses BOTH HTML and PDF artifacts referenced by local_path
+- HTML PTR pages are parsed via pandas.read_html() (high yield for Senate PTR)
+- PDF parsing is best-effort via pdfplumber table extraction; HTML is primary for PTR
+- Never crashes on empty runs: emits diagnostics and writes an empty unified CSV
+
+This file is designed to be a drop-in replacement that addresses:
+- ValueError: No objects to concatenate
+- Corpus dominated by HTML (is_html=True) causing empty ptr_df if HTML ignored
+
+CLI:
+  python unify_ppf.py --project-root . [--verbose]
+
+Outputs:
+  outputs/ppf_transactions_unified.csv
+  outputs/unify_manifest.json
+  logs/unify_ppf.log
 """
 
 from __future__ import annotations
 
+import argparse
+import json
+import logging
 import re
-import datetime as dt
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, Iterable, List, Optional, Tuple
 
-import numpy as np
 import pandas as pd
 
-import pdfplumber
-
-# Optional (only needed for scanned form parsing + debug overlays)
-import cv2
-import pytesseract
-
-
-# ---------------------------
-# Canonical bucket definitions (paper form column order)
-# ---------------------------
-
-AMOUNT_BUCKETS = [
-    "$1,001 - $15,000",
-    "$15,001 - $50,000",
-    "$50,001 - $100,000",
-    "$100,001 - $250,000",
-    "$250,001 - $500,000",
-    "$500,001 - $1,000,000",
-    "Over $1,000,000",
-    "$1,000,001 - $5,000,000",
-    "$5,000,001 - $25,000,000",
-    "$25,000,001 - $50,000,000",
-    "Over $50,000,000",
-]
+# Optional PDF dependency. HTML parsing is the main path.
+try:
+    import pdfplumber  # type: ignore
+except Exception:  # pragma: no cover
+    pdfplumber = None  # type: ignore
 
 
-# ---------------------------
-# Helpers
-# ---------------------------
+# ----------------------------
+# Utilities
+# ----------------------------
 
-def parse_amount_bucket_to_minmax(bucket: str) -> Tuple[Optional[float], Optional[float]]:
-    s = (bucket or "").strip().replace(" ", "")
-    m = re.match(r"^\$([\d,]+)-\$([\d,]+)$", s)
-    if m:
-        return float(m.group(1).replace(",", "")), float(m.group(2).replace(",", ""))
-    m = re.match(r"^Over\$([\d,]+)$", s, re.IGNORECASE)
-    if m:
-        return float(m.group(1).replace(",", "")), None
-    return None, None
+def utc_now_iso() -> str:
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
-def parse_filed_datetime(text: str) -> Optional[str]:
-    """
-    eFD prints: 'Filed 02/04/2026 @ 1:40 PM'
-    """
-    m = re.search(r"Filed\s+(\d{2}/\d{2}/\d{4})\s+@\s+(\d{1,2}:\d{2}\s+[AP]M)", text)
-    if not m:
-        return None
+def setup_logging(log_path: Path, verbose: bool) -> logging.Logger:
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    logger = logging.getLogger("unify_ppf")
+    logger.setLevel(logging.DEBUG)
+
+    # avoid duplicate handlers if reloaded
+    if not logger.handlers:
+        fmt = logging.Formatter("%(asctime)sZ | %(levelname)-7s | %(name)s | %(message)s")
+        fh = logging.FileHandler(log_path, encoding="utf-8")
+        fh.setLevel(logging.DEBUG)
+        fh.setFormatter(fmt)
+        logger.addHandler(fh)
+
+        sh = logging.StreamHandler()
+        sh.setLevel(logging.INFO if verbose else logging.WARNING)
+        sh.setFormatter(fmt)
+        logger.addHandler(sh)
+
+    logger.info("Logging initialized")
+    logger.info(f"log_file={log_path}")
+    return logger
+
+
+def safe_read_csv(path: Path, logger: logging.Logger) -> pd.DataFrame:
+    if not path.exists():
+        logger.error(f"Missing required file: {path}")
+        return pd.DataFrame()
     try:
-        dtm = dt.datetime.strptime(m.group(1) + " " + m.group(2), "%m/%d/%Y %I:%M %p")
-        return dtm.isoformat()
-    except ValueError:
+        return pd.read_csv(path)
+    except Exception as e:
+        logger.exception(f"Failed reading CSV {path}: {e}")
+        return pd.DataFrame()
+
+
+def normalize_bool_series(s: pd.Series) -> pd.Series:
+    # Handles True/False, "True"/"False", 1/0, etc.
+    return s.astype(str).str.strip().str.lower().map({"true": True, "false": False, "1": True, "0": False}).fillna(False)
+
+
+def clean_colname(c: Any) -> str:
+    return re.sub(r"\s+", " ", str(c).strip()).lower()
+
+
+def coerce_amount_range(val: Any) -> Tuple[Optional[float], Optional[float], Optional[str]]:
+    """
+    Attempts to parse Senate PTR amount ranges like:
+      "$1,001 - $15,000"
+      "$15,001 - $50,000"
+      "None"
+    Returns (low, high, raw_text)
+    """
+    if val is None or (isinstance(val, float) and pd.isna(val)):
+        return (None, None, None)
+    raw = str(val).strip()
+    if not raw or raw.lower() in {"none", "n/a", "na"}:
+        return (None, None, raw)
+
+    # extract numeric tokens
+    nums = [n.replace(",", "") for n in re.findall(r"\$?\s*([0-9][0-9,]*)", raw)]
+    if len(nums) >= 2:
+        try:
+            return (float(nums[0]), float(nums[1]), raw)
+        except Exception:
+            return (None, None, raw)
+    if len(nums) == 1:
+        try:
+            x = float(nums[0])
+            return (x, x, raw)
+        except Exception:
+            return (None, None, raw)
+    return (None, None, raw)
+
+
+def coerce_date(val: Any) -> Optional[str]:
+    """
+    Attempts to normalize a date string to YYYY-MM-DD.
+    Returns None if not parseable.
+    """
+    if val is None or (isinstance(val, float) and pd.isna(val)):
+        return None
+    s = str(val).strip()
+    if not s:
+        return None
+    # common formats: MM/DD/YYYY, M/D/YYYY, YYYY-MM-DD
+    try:
+        dt = pd.to_datetime(s, errors="coerce")
+        if pd.isna(dt):
+            return None
+        return dt.date().isoformat()
+    except Exception:
         return None
 
 
-def collect_multiline_rows(lines: List[str]) -> List[str]:
-    """
-    eFD text extraction often wraps rows. We reconstruct by:
-      - Start of new row: 'NN 01/20/2026 ...'
-      - Continuation lines appended until next start.
-    """
-    start_re = re.compile(r"^\d+\s+\d{2}/\d{2}/\d{4}\s+")
-    rows: List[str] = []
-    cur: Optional[str] = None
-    for l in lines:
-        l = (l or "").strip()
-        if not l:
-            continue
-        if start_re.match(l):
-            if cur:
-                rows.append(cur.strip())
-            cur = l
-        else:
-            if cur:
-                cur += " " + l
-    if cur:
-        rows.append(cur.strip())
-    return rows
+# ----------------------------
+# Canonical schema
+# ----------------------------
 
+CANON_COLS = [
+    # provenance
+    "source",              # e.g., "senate_efd_ptr_html" / "senate_efd_pdf"
+    "report_id",           # from index
+    "local_path",          # from index
+    "filer_first",
+    "filer_last",
+    "date_received_raw",
+    "url_full",
 
-KNOWN_ASSET_TYPES = [
-    "Municipal Security",
-    "Municipal",
-    "Security",
-    "Stock",
-    "ETF",
-    "Mutual Fund",
-    "Fund",
-    "Bond",
-    "Crypto",
+    # transaction fields (best-effort)
+    "owner",
+    "transaction_date",
+    "transaction_type",
+    "asset_name",
+    "asset_type",
+    "ticker",
+    "amount_raw",
+    "amount_low",
+    "amount_high",
+    "comments",
 ]
 
 
-def _extract_bucket_flexible(row: str) -> Optional[str]:
-    """
-    Table-native PTR rows sometimes include stray '--' that breaks a simple range regex.
-    Robust approach:
-      - If 'Over $X' exists: use that.
-      - Else take first two $ amounts in the row and construct '$A - $B'.
-    """
-    over = re.search(r"Over\s+\$[\d,]+", row, re.IGNORECASE)
-    if over:
-        return over.group(0).replace("  ", " ").strip()
-
-    amounts = re.findall(r"\$[\d,]+", row)
-    if len(amounts) >= 2:
-        return f"{amounts[0]} - {amounts[1]}"
-    if len(amounts) == 1:
-        # degraded case: keep what we saw
-        return amounts[0]
-    return None
+def empty_unified_df() -> pd.DataFrame:
+    return pd.DataFrame(columns=CANON_COLS)
 
 
-def parse_ptr_row(row: str) -> Optional[Dict[str, object]]:
-    """
-    Parses a reconstructed row string into canonical fields.
+# ----------------------------
+# HTML PTR parsing
+# ----------------------------
 
-    Strategy (robust to messy text):
-    - bucket: from dollar amounts (first two) or 'Over $...'
-    - tokens prior to first $ include row_number, tx_date, owner, ticker, and mid text.
-    - mid text contains asset name + asset type + tx keyword (Purchase/Sale/Exchange)
+PTR_COL_KEYWORDS = {
+    "transaction_date": ["transaction date", "date", "transactiondate"],
+    "owner": ["owner"],
+    "transaction_type": ["transaction type", "type"],
+    "asset_name": ["asset name", "asset", "name"],
+    "asset_type": ["asset type"],
+    "ticker": ["ticker"],
+    "amount_raw": ["amount"],
+    "comments": ["comment", "comments", "description", "notes"],
+}
+
+
+def pick_transaction_table(tables: List[pd.DataFrame]) -> Optional[pd.DataFrame]:
     """
-    bucket = _extract_bucket_flexible(row)
-    if not bucket:
+    Heuristic selection of the table that represents transactions on PTR HTML.
+    """
+    best = None
+    best_score = -1
+
+    for t in tables:
+        if t is None or t.empty:
+            continue
+        cols = [clean_colname(c) for c in t.columns]
+        colblob = " | ".join(cols)
+
+        # Score presence of key concepts; require at least some density
+        score = 0
+        for k in ["transaction", "amount", "ticker", "asset", "owner", "date", "type"]:
+            if k in colblob:
+                score += 1
+
+        # Additional heuristics: transaction tables usually have multiple rows and >=5 columns
+        if len(t) >= 1:
+            score += 1
+        if t.shape[1] >= 5:
+            score += 1
+
+        if score > best_score:
+            best_score = score
+            best = t
+
+    # Require a minimum score so we don't select irrelevant tables
+    if best is None:
         return None
-
-    m_amt = re.search(r"\$[\d,]+", row)
-    if not m_amt:
+    if best_score < 4:
         return None
+    return best
 
-    pre = row[:m_amt.start()].strip()
-    toks = pre.split()
-    if len(toks) < 5:
-        return None
 
-    rownum = int(toks[0])
-    txdate = toks[1]
-    owner = toks[2]
-    ticker = toks[3]
-    mid = " ".join(toks[4:])
+def map_ptr_columns(df: pd.DataFrame) -> Dict[str, str]:
+    """
+    Maps input dataframe columns to canonical fields using keyword matching.
+    Returns mapping: canonical -> source_column_name
+    """
+    cols = list(df.columns)
+    cleaned = {c: clean_colname(c) for c in cols}
 
-    m_type = re.search(r"\b(Purchase|Sale|Exchange)\b", mid, re.IGNORECASE)
-    tx_kw = m_type.group(1).title() if m_type else "UNKNOWN"
+    mapping: Dict[str, str] = {}
+    for canon, keys in PTR_COL_KEYWORDS.items():
+        for c in cols:
+            cc = cleaned[c]
+            if any(k in cc for k in keys):
+                mapping[canon] = c
+                break
+    return mapping
 
-    # Sale scope (Partial/Full) may appear later in the row; search globally
-    scope = ""
-    mscope = re.search(r"\((Partial|Full)\)", row, re.IGNORECASE)
-    if mscope and tx_kw == "Sale":
-        scope = mscope.group(1).upper()
 
-    tx_type_raw = f"{tx_kw} ({scope.title()})" if scope else tx_kw
-    tx_type_norm = {"Purchase": "BUY", "Sale": "SELL", "Exchange": "EXCHANGE"}.get(tx_kw, "UNKNOWN")
+def parse_ptr_html(path: Path, logger: logging.Logger) -> pd.DataFrame:
+    """
+    Parses a Senate eFD PTR HTML file into a dataframe of transactions (raw columns).
+    """
+    try:
+        tables = pd.read_html(str(path))
+    except Exception as e:
+        logger.debug(f"read_html failed: {path} err={e}")
+        return pd.DataFrame()
 
-    before = mid[:m_type.start()].strip() if m_type else mid
+    t = pick_transaction_table(tables)
+    if t is None or t.empty:
+        return pd.DataFrame()
 
-    asset_type = "UNKNOWN"
-    asset_name = before
+    # Clean up: strip whitespace in column names
+    t = t.copy()
+    t.columns = [re.sub(r"\s+", " ", str(c)).strip() for c in t.columns]
 
-    # identify asset type as the last known phrase before tx type
-    for at in sorted(KNOWN_ASSET_TYPES, key=len, reverse=True):
-        if re.search(rf"\b{re.escape(at)}\b$", before, re.IGNORECASE):
-            asset_type = at
-            asset_name = before[: -len(at)].strip()
+    # Some pages may include repeated header rows inside the table; drop obvious duplicates
+    # If "Transaction Date" appears as a value row, drop those rows.
+    for col in t.columns:
+        if "date" in clean_colname(col):
+            t = t[t[col].astype(str).str.lower().ne(str(col).lower())]
             break
 
-    # parse date
-    try:
-        tx_date_iso = dt.datetime.strptime(txdate, "%m/%d/%Y").date().isoformat()
-    except ValueError:
-        tx_date_iso = ""
-
-    amin, amax = parse_amount_bucket_to_minmax(bucket.replace(" ", ""))
-
-    return {
-        "row_number": rownum,
-        "transaction_date": tx_date_iso,
-        "owner": owner,
-        "ticker": "" if ticker == "--" else ticker,
-        "asset_name": asset_name,
-        "asset_type": asset_type,
-        "transaction_type_raw": tx_type_raw,
-        "transaction_type": tx_type_norm,
-        "sale_scope": scope,
-        "amount_bucket_raw": bucket,
-        "amount_min_usd": amin,
-        "amount_max_usd": amax,
-    }
+    return t
 
 
-def parse_ptr_pdf(pdf_path: Path) -> pd.DataFrame:
-    recs: List[Dict[str, object]] = []
-    with pdfplumber.open(str(pdf_path)) as pdf:
-        for page in pdf.pages:
-            text = page.extract_text() or ""
-            filed_dt = parse_filed_datetime(text)
-            off = None
-            m = re.search(r"The Honorable\s+(.+?)\s+\(", text)
-            if m:
-                off = m.group(1).strip()
-
-            rows = collect_multiline_rows(text.splitlines())
-            for row in rows:
-                if not re.match(r"^\d+\s+\d{2}/\d{2}/\d{4}\s+", row.strip()):
-                    continue
-                parsed = parse_ptr_row(row)
-                if not parsed:
-                    continue
-                recs.append(
-                    {
-                        "record_type": "TRANSACTION",
-                        "source_kind": "PTR_TABLE_PDF",
-                        "source_pdf": pdf_path.name,
-                        "source_page": page.page_number,
-                        "official_name": off or "",
-                        "filing_datetime": filed_dt or "",
-                        **parsed,
-                    }
-                )
-    return pd.DataFrame(recs)
-
-
-# ---------------------------
-# Scanned form parsing (checkbox/X-mark semantics)
-# ---------------------------
-
-@dataclass
-class ScanTemplate:
-    """
-    Template for one scanned-form page family.
-
-    The default values below are intentionally explicit and should be treated as:
-      - calibrated constants per form family (or derived by auto-calibration).
-
-    The provided helper `auto_detect_columns_rows` can be used to derive
-    x-lines and y-lines; then you freeze them into a template for repeatable runs.
-    """
-    crop_x0: int = 300
-    crop_x1: int = 2300
-    crop_y0: int = 1100  # should be below the EXAMPLE block
-    crop_y1: int = 1625
-
-    # Vertical grid lines in crop-coordinates (x positions)
-    # Expected:
-    # - tx lines: 4 lines -> 3 columns (Purchase/Sale/Exchange)
-    # - amt lines: 12 lines -> 11 columns (buckets)
-    tx_lines: Optional[List[int]] = None
-    amt_lines: Optional[List[int]] = None
-
-    # Horizontal row separator lines in crop-coordinates
-    row_lines: Optional[List[int]] = None
-
-    mark_threshold: float = 0.12  # density threshold inside cell (tune if needed)
-
-
-def _detect_grid_lines(binary: np.ndarray, axis: str, scale: int) -> np.ndarray:
-    # binary expected inverted: lines/ink are white (255)
-    if axis == "v":
-        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, max(10, binary.shape[0] // scale)))
-    else:
-        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (max(10, binary.shape[1] // scale), 1))
-    er = cv2.erode(binary, kernel, iterations=1)
-    di = cv2.dilate(er, kernel, iterations=2)
-    return di
-
-
-def _cluster_positions(idxs: np.ndarray, gap: int = 2) -> List[int]:
-    if len(idxs) == 0:
-        return []
-    out: List[int] = []
-    cur = [int(idxs[0])]
-    for v in idxs[1:]:
-        v = int(v)
-        if v - cur[-1] <= gap:
-            cur.append(v)
-        else:
-            out.append(int(np.mean(cur)))
-            cur = [v]
-    out.append(int(np.mean(cur)))
-    return out
-
-
-def auto_detect_columns_rows(image_path: Path, tmpl: ScanTemplate) -> ScanTemplate:
-    """
-    Auto-detect grid lines in the crop window. Use once to calibrate a new scan family.
-    """
-    im = cv2.imread(str(image_path))
-    gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
-    bininv = cv2.adaptiveThreshold(
-        gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 35, 10
-    )
-
-    crop = bininv[tmpl.crop_y0 : tmpl.crop_y1, tmpl.crop_x0 : tmpl.crop_x1]
-
-    vlines = _detect_grid_lines(crop, "v", scale=40)
-    hlines = _detect_grid_lines(crop, "h", scale=25)
-
-    colsum = vlines.sum(axis=0)
-    xs = np.where(colsum > 0.6 * colsum.max())[0]
-    x_positions = _cluster_positions(xs)
-
-    rowsum = hlines.sum(axis=1)
-    ys = np.where(rowsum > 0.6 * rowsum.max())[0]
-    y_positions = _cluster_positions(ys)
-
-    tx_lines = sorted([p for p in x_positions if 650 <= p <= 900])
-    amt_lines = sorted([p for p in x_positions if 1000 <= p <= 1700])
-
-    tmpl.tx_lines = tx_lines if len(tx_lines) >= 4 else tmpl.tx_lines
-    tmpl.amt_lines = amt_lines if len(amt_lines) >= 12 else tmpl.amt_lines
-    tmpl.row_lines = y_positions if len(y_positions) >= 2 else tmpl.row_lines
-
-    return tmpl
-
-
-def _cell_density(bininv: np.ndarray, x: int, y: int, w: int, h: int, pad: int = 6) -> float:
-    roi = bininv[y + pad : y + h - pad, x + pad : x + w - pad]
-    if roi.size == 0:
-        return 0.0
-    return float(roi.mean() / 255.0)
-
-
-def parse_scanned_form_page(
-    image_path: Path,
-    source_pdf_name: str,
-    filing_datetime: str = "",
-    official_name: str = "",
-    tmpl: Optional[ScanTemplate] = None,
+def normalize_ptr_rows(
+    raw: pd.DataFrame,
+    idx_row: Dict[str, Any],
+    logger: logging.Logger,
 ) -> pd.DataFrame:
     """
-    Extracts per-row checkbox semantics (Purchase/Sale/Exchange + 11 amount buckets)
-    from a scanned form page *after* template calibration.
-
-    Output is canonical TRANSACTION rows, but:
-      - ticker may be missing
-      - asset_name comes from OCR of left band (auditable, not perfect)
-      - transaction_type and amount_bucket_raw come from mark detection in cells
+    Converts raw PTR table rows to canonical schema.
     """
-    tmpl = tmpl or ScanTemplate()
+    if raw is None or raw.empty:
+        return empty_unified_df()
 
-    # If lines are not provided, attempt auto-detection within the crop
-    if tmpl.tx_lines is None or tmpl.amt_lines is None or tmpl.row_lines is None:
-        tmpl = auto_detect_columns_rows(image_path, tmpl)
+    mapping = map_ptr_columns(raw)
+    # Build canonical rows
+    out_rows: List[Dict[str, Any]] = []
+    for _, r in raw.iterrows():
+        def get(canon: str) -> Any:
+            col = mapping.get(canon)
+            if col is None:
+                return None
+            return r.get(col)
 
-    if tmpl.tx_lines is None or tmpl.amt_lines is None or tmpl.row_lines is None:
-        raise RuntimeError("Template calibration failed: missing tx_lines/amt_lines/row_lines")
+        amount_raw = get("amount_raw")
+        low, high, _raw = coerce_amount_range(amount_raw)
 
-    im = cv2.imread(str(image_path))
-    gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
-    bininv = cv2.adaptiveThreshold(
-        gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 35, 10
+        out_rows.append({
+            "source": "senate_efd_ptr_html",
+            "report_id": idx_row.get("report_id"),
+            "local_path": idx_row.get("local_path"),
+            "filer_first": idx_row.get("filer_first"),
+            "filer_last": idx_row.get("filer_last"),
+            "date_received_raw": idx_row.get("date_received_raw"),
+            "url_full": idx_row.get("url_full"),
+
+            "owner": get("owner"),
+            "transaction_date": coerce_date(get("transaction_date")),
+            "transaction_type": get("transaction_type"),
+            "asset_name": get("asset_name"),
+            "asset_type": get("asset_type"),
+            "ticker": get("ticker"),
+            "amount_raw": None if amount_raw is None else str(amount_raw),
+            "amount_low": low,
+            "amount_high": high,
+            "comments": get("comments"),
+        })
+
+    df = pd.DataFrame(out_rows)
+    # Ensure all columns present
+    for c in CANON_COLS:
+        if c not in df.columns:
+            df[c] = None
+    return df[CANON_COLS]
+
+
+# ----------------------------
+# PDF parsing (best-effort)
+# ----------------------------
+
+def parse_pdf_best_effort(path: Path, logger: logging.Logger) -> pd.DataFrame:
+    """
+    Best-effort PDF parsing.
+    This is intentionally conservative: if we cannot reliably extract a transaction table,
+    we return empty and rely on HTML for PTR coverage.
+
+    If you later want higher recall, swap in camelot/tabula or a custom layout parser.
+    """
+    if pdfplumber is None:
+        logger.debug("pdfplumber not available; skipping PDF parsing")
+        return pd.DataFrame()
+
+    try:
+        with pdfplumber.open(str(path)) as pdf:
+            all_tables: List[pd.DataFrame] = []
+            # Limit pages to reduce runtime spikes; adjust as needed
+            max_pages = min(len(pdf.pages), 8)
+            for i in range(max_pages):
+                page = pdf.pages[i]
+                tables = page.extract_tables() or []
+                for t in tables:
+                    if not t or len(t) < 2:
+                        continue
+                    # first row is header candidate
+                    header = [re.sub(r"\s+", " ", (h or "")).strip() for h in t[0]]
+                    rows = t[1:]
+                    # Build df
+                    try:
+                        df = pd.DataFrame(rows, columns=header)
+                        # Heuristic: transaction-ish
+                        cols = [clean_colname(c) for c in df.columns]
+                        blob = " ".join(cols)
+                        score = sum(k in blob for k in ["transaction", "amount", "asset", "owner", "ticker", "date", "type"])
+                        if score >= 3 and len(df) >= 1 and df.shape[1] >= 4:
+                            all_tables.append(df)
+                    except Exception:
+                        continue
+
+            if not all_tables:
+                return pd.DataFrame()
+
+            # pick best table
+            best = None
+            best_score = -1
+            for df in all_tables:
+                cols = [clean_colname(c) for c in df.columns]
+                blob = " ".join(cols)
+                score = sum(k in blob for k in ["transaction", "amount", "asset", "owner", "ticker", "date", "type"])
+                if score > best_score:
+                    best_score = score
+                    best = df
+            return best if best is not None else pd.DataFrame()
+    except Exception as e:
+        logger.debug(f"PDF parse failed: {path} err={e}")
+        return pd.DataFrame()
+
+
+def normalize_pdf_rows(raw: pd.DataFrame, idx_row: Dict[str, Any]) -> pd.DataFrame:
+    """
+    Best-effort normalization for PDF-extracted tables.
+    Column names vary; use keyword mapping similar to HTML.
+    """
+    if raw is None or raw.empty:
+        return empty_unified_df()
+
+    mapping = map_ptr_columns(raw)
+
+    out_rows: List[Dict[str, Any]] = []
+    for _, r in raw.iterrows():
+        def get(canon: str) -> Any:
+            col = mapping.get(canon)
+            if col is None:
+                return None
+            return r.get(col)
+
+        amount_raw = get("amount_raw")
+        low, high, _raw = coerce_amount_range(amount_raw)
+
+        out_rows.append({
+            "source": "senate_efd_pdf",
+            "report_id": idx_row.get("report_id"),
+            "local_path": idx_row.get("local_path"),
+            "filer_first": idx_row.get("filer_first"),
+            "filer_last": idx_row.get("filer_last"),
+            "date_received_raw": idx_row.get("date_received_raw"),
+            "url_full": idx_row.get("url_full"),
+
+            "owner": get("owner"),
+            "transaction_date": coerce_date(get("transaction_date")),
+            "transaction_type": get("transaction_type"),
+            "asset_name": get("asset_name"),
+            "asset_type": get("asset_type"),
+            "ticker": get("ticker"),
+            "amount_raw": None if amount_raw is None else str(amount_raw),
+            "amount_low": low,
+            "amount_high": high,
+            "comments": get("comments"),
+        })
+
+    df = pd.DataFrame(out_rows)
+    for c in CANON_COLS:
+        if c not in df.columns:
+            df[c] = None
+    return df[CANON_COLS]
+
+
+# ----------------------------
+# Main unify pipeline
+# ----------------------------
+
+@dataclass
+class Inputs:
+    project_root: Path
+    efd_index_csv: Path
+
+
+@dataclass
+class Outputs:
+    out_dir: Path
+    unified_csv: Path
+    manifest_json: Path
+    log_file: Path
+
+
+def build_paths(project_root: Path) -> Tuple[Inputs, Outputs]:
+    out_dir = project_root / "outputs"
+    log_dir = project_root / "logs"
+    return (
+        Inputs(
+            project_root=project_root,
+            efd_index_csv=out_dir / "efd_reports_index.csv",
+        ),
+        Outputs(
+            out_dir=out_dir,
+            unified_csv=out_dir / "ppf_transactions_unified.csv",
+            manifest_json=out_dir / "unify_manifest.json",
+            log_file=log_dir / "unify_ppf.log",
+        ),
     )
 
-    # Build row bands from row separator lines
-    row_lines = sorted(tmpl.row_lines)
-    bands = [(row_lines[i], row_lines[i + 1]) for i in range(len(row_lines) - 1)]
 
-    # Heuristic: ignore very small bands
-    bands = [(a, b) for (a, b) in bands if (b - a) >= 30]
+def unify(inputs: Inputs, outputs: Outputs, logger: logging.Logger) -> pd.DataFrame:
+    idx = safe_read_csv(inputs.efd_index_csv, logger)
+    if idx.empty:
+        logger.error("efd_reports_index.csv is empty or missing; nothing to unify.")
+        return empty_unified_df()
 
-    # tx type columns: 3 cells from 4 grid lines
-    tx_lines = sorted(tmpl.tx_lines)[:4]
-    tx_cells = [(tx_lines[i], tx_lines[i + 1]) for i in range(3)]
+    # Normalize booleans
+    for c in ["downloaded", "is_pdf", "is_html"]:
+        if c in idx.columns:
+            idx[c] = normalize_bool_series(idx[c])
 
-    # amount columns: 11 cells from 12 grid lines
-    amt_lines = sorted(tmpl.amt_lines)[:12]
-    amt_cells = [(amt_lines[i], amt_lines[i + 1]) for i in range(11)]
+    # Filter to downloaded with a local_path that exists
+    if "downloaded" in idx.columns:
+        idx = idx[idx["downloaded"] == True]  # noqa: E712
+    if "local_path" not in idx.columns:
+        logger.error("efd_reports_index.csv missing local_path column; cannot proceed.")
+        return empty_unified_df()
 
-    records: List[Dict[str, object]] = []
+    idx["local_path"] = idx["local_path"].fillna("").astype(str)
+    idx = idx[idx["local_path"].str.len() > 0]
 
-    for band_idx, (yt, yb) in enumerate(bands, start=1):
-        # OCR left band (row number / asset / date / owner codes)
-        left_x1 = tx_lines[0]
-        left_img = gray[
-            tmpl.crop_y0 + yt : tmpl.crop_y0 + yb,
-            tmpl.crop_x0 : tmpl.crop_x0 + left_x1,
-        ]
+    # Ensure on-disk existence
+    def exists(p: str) -> bool:
+        try:
+            return Path(p).exists()
+        except Exception:
+            return False
 
-        ocr_text = pytesseract.image_to_string(left_img, config="--psm 6").strip()
-        ocr_text = re.sub(r"\s+", " ", ocr_text)
+    idx = idx[idx["local_path"].map(exists)]
+    logger.info(f"Index rows after downloaded+exists filtering: {len(idx)}")
 
-        # row number
-        mrow = re.match(r"^\s*(\d+)", ocr_text)
-        row_number = int(mrow.group(1)) if mrow else band_idx
+    # Split html/pdf
+    html_idx = idx[idx["local_path"].str.lower().str.endswith(".html")]
+    pdf_idx = idx[idx["local_path"].str.lower().str.endswith(".pdf")]
+    logger.info(f"Candidate HTML: {len(html_idx)}")
+    logger.info(f"Candidate PDF:  {len(pdf_idx)}")
 
-        # transaction date (MM/DD/YY)
-        tx_date_iso = ""
-        mdate = re.search(r"(\d{1,2}/\d{1,2}/\d{2})", ocr_text)
-        if mdate:
-            try:
-                tx_date_iso = dt.datetime.strptime(mdate.group(1), "%m/%d/%y").date().isoformat()
-            except ValueError:
-                pass
+    # Parse HTML PTR
+    html_frames: List[pd.DataFrame] = []
+    html_ok = 0
+    html_zero = 0
+    for i, row in html_idx.iterrows():
+        p = Path(row["local_path"])
+        raw = parse_ptr_html(p, logger)
+        if raw is None or raw.empty:
+            html_zero += 1
+            continue
+        html_ok += 1
+        html_frames.append(normalize_ptr_rows(raw, row.to_dict(), logger))
 
-        # owner code pattern (S/J/DC) in parentheses
-        mown = re.search(r"\((S|J|DC)\)", ocr_text)
-        owner = {"S": "Self", "J": "Joint", "DC": "Dependent Child"}.get(mown.group(1), "") if mown else ""
+        # periodic progress
+        if html_ok % 250 == 0:
+            logger.info(f"HTML parsed ok={html_ok} zero={html_zero} scanned={html_ok+html_zero}/{len(html_idx)}")
 
-        # Transaction type marks
-        tx_scores = []
-        for (xl, xr) in tx_cells:
-            d = _cell_density(
-                bininv,
-                tmpl.crop_x0 + xl,
-                tmpl.crop_y0 + yt,
-                xr - xl,
-                yb - yt,
-            )
-            tx_scores.append(d)
+    # Parse PDFs (best-effort)
+    pdf_frames: List[pd.DataFrame] = []
+    pdf_ok = 0
+    pdf_zero = 0
+    for i, row in pdf_idx.iterrows():
+        p = Path(row["local_path"])
+        raw = parse_pdf_best_effort(p, logger)
+        if raw is None or raw.empty:
+            pdf_zero += 1
+            continue
+        pdf_ok += 1
+        pdf_frames.append(normalize_pdf_rows(raw, row.to_dict()))
 
-        tx_checked = [s > tmpl.mark_threshold for s in tx_scores]
-        tx_type = "UNKNOWN"
-        if any(tx_checked):
-            tx_type = ["BUY", "SELL", "EXCHANGE"][int(np.argmax(tx_scores))]
+        if pdf_ok % 100 == 0:
+            logger.info(f"PDF parsed ok={pdf_ok} zero={pdf_zero} scanned={pdf_ok+pdf_zero}/{len(pdf_idx)}")
 
-        # Amount bucket marks
-        amt_scores = []
-        for (xl, xr) in amt_cells:
-            d = _cell_density(
-                bininv,
-                tmpl.crop_x0 + xl,
-                tmpl.crop_y0 + yt,
-                xr - xl,
-                yb - yt,
-            )
-            amt_scores.append(d)
+    # Concatenate safely (never crash)
+    parts = [df for df in (html_frames + pdf_frames) if df is not None and not df.empty]
+    if not parts:
+        logger.error("unify_ppf produced 0 unified rows (no parseable HTML/PDF tables matched heuristics).")
+        logger.error(f"html candidates={len(html_idx)} html_ok={html_ok} html_zero={html_zero}")
+        logger.error(f"pdf  candidates={len(pdf_idx)}  pdf_ok={pdf_ok}  pdf_zero={pdf_zero}")
 
-        amt_checked = [s > tmpl.mark_threshold for s in amt_scores]
-        chosen = [i for i, b in enumerate(amt_checked) if b]
+        # write empty unified output anyway for downstream determinism
+        out = empty_unified_df()
+        outputs.out_dir.mkdir(parents=True, exist_ok=True)
+        out.to_csv(outputs.unified_csv, index=False)
+        manifest = {
+            "generated_utc": utc_now_iso(),
+            "index_rows": int(len(idx)),
+            "html_candidates": int(len(html_idx)),
+            "pdf_candidates": int(len(pdf_idx)),
+            "html_ok": int(html_ok),
+            "html_zero": int(html_zero),
+            "pdf_ok": int(pdf_ok),
+            "pdf_zero": int(pdf_zero),
+            "unified_rows": 0,
+            "note": "No parseable tables found; adjust heuristics or add dedicated parsers.",
+        }
+        outputs.manifest_json.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+        return out
 
-        bucket_raw = ""
-        status = "NONE"
-        ordinal = None
-        if len(chosen) == 1:
-            status = "SINGLE"
-            ordinal = chosen[0] + 1
-            bucket_raw = AMOUNT_BUCKETS[chosen[0]]
-        elif len(chosen) > 1:
-            status = "MULTI"
-
-        amin, amax = parse_amount_bucket_to_minmax(bucket_raw.replace(" ", ""))
-
-        records.append(
-            {
-                "record_type": "TRANSACTION",
-                "source_kind": "PTR_SCAN_FORM",
-                "source_pdf": source_pdf_name,
-                "source_page": "",  # set by caller if known
-                "official_name": official_name,
-                "filing_datetime": filing_datetime,
-                "row_number": row_number,
-                "transaction_date": tx_date_iso,
-                "owner": owner,
-                "ticker": "",
-                "asset_name": ocr_text,
-                "asset_type": "",
-                "transaction_type_raw": tx_type,
-                "transaction_type": tx_type,
-                "sale_scope": "",
-                "amount_bucket_raw": bucket_raw,
-                "amount_min_usd": amin,
-                "amount_max_usd": amax,
-                "amount_bucket_status": status,
-                "amount_bucket_ordinal": ordinal,
-                "tx_scores": tx_scores,
-                "amt_scores": amt_scores,
-            }
-        )
-
-    return pd.DataFrame(records)
-
-
-# ---------------------------
-# Unify orchestrator
-# ---------------------------
-
-def unify(inputs_dir: Path, outputs_dir: Path) -> pd.DataFrame:
-    outputs_dir.mkdir(parents=True, exist_ok=True)
-
-    # 1) Table-native PTR PDFs
-    ptr_pdfs = sorted(inputs_dir.glob("eFD_ Print Periodic Transaction Report*.pdf"))
-    ptr_frames = [parse_ptr_pdf(p) for p in ptr_pdfs]
-    ptr_df = pd.concat(ptr_frames, ignore_index=True) if ptr_frames else pd.DataFrame()
-
-    # 2) Scanned form pages (optional)
-    scan_frames: List[pd.DataFrame] = []
-    for img in sorted(inputs_dir.glob("ppf_tmp_report5_p*.png")):
-        # NOTE: caller can pass filing_datetime/official_name once you parse cover page
-        scan_frames.append(
-            parse_scanned_form_page(
-                img,
-                source_pdf_name="eFD_ Print Report5.pdf",
-                tmpl=ScanTemplate(),
-            )
-        )
-    scan_df = pd.concat(scan_frames, ignore_index=True) if scan_frames else pd.DataFrame()
-
-    # 3) Unified
-    unified = pd.concat([df for df in [ptr_df, scan_df] if not df.empty], ignore_index=True)
-
-    # Stable column order (superset-friendly)
-    preferred_cols = [
-        "record_type",
-        "source_kind",
-        "source_pdf",
-        "source_page",
-        "official_name",
-        "filing_datetime",
-        "row_number",
-        "transaction_date",
-        "owner",
-        "ticker",
-        "asset_name",
-        "asset_type",
-        "transaction_type_raw",
-        "transaction_type",
-        "sale_scope",
-        "amount_bucket_raw",
-        "amount_min_usd",
-        "amount_max_usd",
-        "amount_bucket_status",
-        "amount_bucket_ordinal",
-        "tx_scores",
-        "amt_scores",
-    ]
-    for c in preferred_cols:
+    unified = pd.concat(parts, ignore_index=True)
+    # basic cleanup
+    unified = unified.dropna(how="all")
+    for c in CANON_COLS:
         if c not in unified.columns:
-            unified[c] = ""
+            unified[c] = None
+    unified = unified[CANON_COLS]
 
-    unified = unified[preferred_cols]
+    outputs.out_dir.mkdir(parents=True, exist_ok=True)
+    unified.to_csv(outputs.unified_csv, index=False)
 
-    # Write outputs
-    csv_path = outputs_dir / "ppf_transactions_unified.csv"
-    unified.to_csv(csv_path, index=False)
+    manifest = {
+        "generated_utc": utc_now_iso(),
+        "index_rows": int(len(idx)),
+        "html_candidates": int(len(html_idx)),
+        "pdf_candidates": int(len(pdf_idx)),
+        "html_ok": int(html_ok),
+        "html_zero": int(html_zero),
+        "pdf_ok": int(pdf_ok),
+        "pdf_zero": int(pdf_zero),
+        "unified_rows": int(len(unified)),
+        "output_csv": str(outputs.unified_csv),
+    }
+    outputs.manifest_json.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
 
-    # Parquet if available
-    try:
-        import pyarrow  # noqa: F401
-        pq_path = outputs_dir / "ppf_transactions_unified.parquet"
-        unified.to_parquet(pq_path, index=False)
-    except Exception:
-        pass
-
+    logger.info(f"Wrote unified: {outputs.unified_csv} rows={len(unified)}")
+    logger.info(f"Wrote manifest: {outputs.manifest_json}")
     return unified
 
 
-if __name__ == "__main__":
-    root = Path(".").resolve()
-    inputs = root
-    outputs = root / "outputs"
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--project-root", required=True, help="Project root (same as used by ppf_pipeline.py)")
+    ap.add_argument("--verbose", action="store_true", help="Verbose console logging")
+    args = ap.parse_args()
 
-    df = unify(inputs, outputs)
-    print(f"[PPF] Unified transactions: {len(df):,}")
-    print(df.head(10).to_string(index=False))
+    project_root = Path(args.project_root).resolve()
+    inputs, outputs = build_paths(project_root)
+    logger = setup_logging(outputs.log_file, verbose=args.verbose)
+
+    logger.info("=== unify_ppf start ===")
+    logger.info(f"project_root={project_root}")
+
+    df = unify(inputs, outputs, logger)
+
+    logger.info("=== unify_ppf complete ===")
+    logger.info(f"rows={len(df)}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -220,30 +220,99 @@ def extract_rows_to_reports(rows: List[List[Any]]) -> List[ReportRow]:
 
 
 def download_report(
-    session: requests.Session,
-    report: ReportRow,
-    out_dir_html: Path,
-    out_dir_pdf: Path,
-    rate_limit: float,
+    report: Report,
+    out_dir: Path,
     overwrite: bool,
-) -> ReportRow:
-    """
-    Downloads HTML or PDF for a given report row, records audit metadata.
-    """
-    try:
-        target_dir = out_dir_pdf if report.is_pdf else out_dir_html
-        ext = ".pdf" if report.is_pdf else ".html"
-        local_path = target_dir / f"{report.report_id}{ext}"
+    session: requests.Session,
+    logger: logging.Logger,
+) -> Report:
+    """Download a single report asset (PDF or HTML).
 
-        if local_path.exists() and not overwrite:
-            report.downloaded = True
-            report.local_path = str(local_path)
-            report.http_status = 200
-            report.content_type = "cached"
-            report.bytes = local_path.stat().st_size
-            report.sha256 = sha256_file(local_path)
-            report.downloaded_utc = utc_now_iso()
+    Defensive behaviors implemented to reduce downstream parsing failures:
+    - Atomic writes (.part then rename)
+    - Basic content sniffing: if a purported PDF is not a PDF (missing %PDF header),
+      store it under the HTML directory and flip flags so unify can skip PDF parsing.
+    - Idempotent re-runs: if the target exists and overwrite is False, the function
+      records the existing local path and returns immediately.
+    """
+    subdir = "pdf" if report.is_pdf else "html"
+    local_path = out_dir / subdir / report.filename
+    local_path.parent.mkdir(parents=True, exist_ok=True)
+
+    if local_path.exists() and not overwrite:
+        report.local_path = str(local_path)
+        return report
+
+    tmp_path = local_path.with_suffix(local_path.suffix + ".part")
+
+    try:
+        resp = session.get(report.download_url, stream=True, timeout=60)
+        resp.raise_for_status()
+
+        # Prefer declared type, but do not trust it blindly.
+        content_type = (resp.headers.get("Content-Type") or "").lower()
+
+        # Write to temp file
+        first_bytes = b""
+        with open(tmp_path, "wb") as f:
+            for chunk in resp.iter_content(chunk_size=1024 * 64):
+                if not chunk:
+                    continue
+                if len(first_bytes) < 8:
+                    need = 8 - len(first_bytes)
+                    first_bytes += chunk[:need]
+                f.write(chunk)
+
+        # Sniff PDF header if we think this is a PDF.
+        is_pdf_by_magic = first_bytes.startswith(b"%PDF")
+        declared_pdf = ("pdf" in content_type) or report.is_pdf
+
+        if declared_pdf and not is_pdf_by_magic:
+            # This is usually an HTML error page or a redirect body that got saved with a .pdf name.
+            html_dir = out_dir / "html"
+            html_dir.mkdir(parents=True, exist_ok=True)
+
+            # Preserve the original name but force .html extension for transparency.
+            html_name = Path(report.filename).with_suffix(".html").name
+            html_path = html_dir / html_name
+
+            if html_path.exists() and overwrite:
+                html_path.unlink()
+
+            tmp_html = html_path.with_suffix(html_path.suffix + ".part")
+            tmp_path.replace(tmp_html)
+            tmp_html.replace(html_path)
+
+            report.local_path = str(html_path)
+            report.is_pdf = False
+            report.is_html = True
+
+            logger.warning(
+                "Downloaded content did not look like a PDF; stored as HTML instead. "
+                "report_id=%s content_type=%s path=%s",
+                report.report_id,
+                content_type,
+                html_path,
+            )
             return report
+
+        # Otherwise keep as-is
+        if local_path.exists() and overwrite:
+            local_path.unlink()
+        tmp_path.replace(local_path)
+
+        report.local_path = str(local_path)
+        return report
+
+    except Exception as e:
+        # Clean partials to keep the repo deterministic across re-runs.
+        try:
+            if tmp_path.exists():
+                tmp_path.unlink()
+        except Exception:
+            pass
+        logger.exception("Download failed report_id=%s url=%s err=%s", report.report_id, report.download_url, e)
+        raise
 
         rate_limit_sleep(rate_limit)
         r = session.get(report.url_full, headers={"Referer": SEARCH_PAGE_URL}, timeout=DEFAULT_TIMEOUT_SECS, stream=True)
