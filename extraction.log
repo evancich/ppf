@@ -1,0 +1,71 @@
+2026-02-19 07:07:29,668 - INFO - Found 3676 files to process.
+2026-02-19 07:07:29,685 - WARNING - Could not fully parse header for 2024_Titus_9115617.pdf
+2026-02-19 07:07:29,685 - INFO - Successfully processed 2024_Titus_9115617.pdf
+2026-02-19 07:07:29,769 - WARNING - Could not fully parse header for 2023_Winn_30019460.pdf
+2026-02-19 07:07:29,769 - INFO - Successfully processed 2023_Winn_30019460.pdf
+2026-02-19 07:07:29,850 - WARNING - Could not fully parse header for 2024_Lancaster_40003619.pdf
+2026-02-19 07:07:29,850 - INFO - Successfully processed 2024_Lancaster_40003619.pdf
+2026-02-19 07:07:30,094 - WARNING - Could not fully parse header for 2024_Nieves_10060707.pdf
+2026-02-19 07:07:30,095 - INFO - Successfully processed 2024_Nieves_10060707.pdf
+2026-02-19 07:07:30,187 - WARNING - Could not fully parse header for 2023_Fischbach_30021930.pdf
+2026-02-19 07:07:30,188 - INFO - Successfully processed 2023_Fischbach_30021930.pdf
+2026-02-19 07:07:30,202 - WARNING - Could not fully parse header for 2024_Bondar_8220512.pdf
+2026-02-19 07:07:30,202 - INFO - Successfully processed 2024_Bondar_8220512.pdf
+2026-02-19 07:07:30,277 - WARNING - Could not fully parse header for 2023_Bourdeaux_30017735.pdf
+2026-02-19 07:07:30,277 - INFO - Successfully processed 2023_Bourdeaux_30017735.pdf
+2026-02-19 07:07:30,494 - WARNING - Could not fully parse header for 2023_Lincoln_10056166.pdf
+2026-02-19 07:07:30,494 - INFO - Successfully processed 2023_Lincoln_10056166.pdf
+2026-02-19 07:07:30,576 - WARNING - Could not fully parse header for 2023_Helmer_30019520.pdf
+2026-02-19 07:07:30,576 - INFO - Successfully processed 2023_Helmer_30019520.pdf
+2026-02-19 07:07:30,867 - WARNING - Could not fully parse header for 2024_Fratto_10061568.pdf
+2026-02-19 07:07:30,868 - INFO - Successfully processed 2024_Fratto_10061568.pdf
+2026-02-19 07:07:31,127 - WARNING - Could not fully parse header for 2023_Conroy_10062988.pdf
+2026-02-19 07:07:31,127 - INFO - Successfully processed 2023_Conroy_10062988.pdf
+2026-02-19 07:07:31,192 - WARNING - Could not fully parse header for 2023_Antropov_40003475.pdf
+2026-02-19 07:07:31,192 - INFO - Successfully processed 2023_Antropov_40003475.pdf
+2026-02-19 07:07:31,573 - WARNING - Could not fully parse header for 2023_Radewagen_10059318.pdf
+2026-02-19 07:07:31,573 - INFO - Successfully processed 2023_Radewagen_10059318.pdf
+2026-02-19 07:07:31,763 - WARNING - Could not fully parse header for 2023_Martinez_10055520.pdf
+2026-02-19 07:07:31,763 - INFO - Successfully processed 2023_Martinez_10055520.pdf
+2026-02-19 07:07:31,833 - WARNING - Could not fully parse header for 2024_Begich_30023077.pdf
+2026-02-19 07:07:31,833 - INFO - Successfully processed 2024_Begich_30023077.pdf
+2026-02-19 07:07:31,901 - WARNING - Could not fully parse header for 2023_Fallon_30021226.pdf
+2026-02-19 07:07:31,901 - INFO - Successfully processed 2023_Fallon_30021226.pdf
+2026-02-19 07:07:31,960 - WARNING - Could not fully parse header for 2023_Thanedar_30021611.pdf
+2026-02-19 07:07:31,960 - INFO - Successfully processed 2023_Thanedar_30021611.pdf
+2026-02-19 07:07:32,121 - WARNING - Could not fully parse header for 2024_Joseph_10066610.pdf
+2026-02-19 07:07:32,121 - INFO - Successfully processed 2024_Joseph_10066610.pdf
+2026-02-19 07:07:32,632 - WARNING - Could not fully parse header for 2024_Biggs_10056896.pdf
+2026-02-19 07:07:32,633 - INFO - Successfully processed 2024_Biggs_10056896.pdf
+2026-02-19 07:07:32,873 - WARNING - Could not fully parse header for 2023_Slotkin_10060506.pdf
+2026-02-19 07:07:32,874 - INFO - Successfully processed 2023_Slotkin_10060506.pdf
+2026-02-19 07:07:33,897 - WARNING - Could not fully parse header for 2024_O'Donnell_10059729.pdf
+2026-02-19 07:07:33,897 - INFO - Successfully processed 2024_O'Donnell_10059729.pdf
+2026-02-19 07:07:34,227 - WARNING - Could not fully parse header for 2024_Graves_10068661.pdf
+2026-02-19 07:07:34,227 - INFO - Successfully processed 2024_Graves_10068661.pdf
+2026-02-19 07:07:34,229 - WARNING - Could not fully parse header for 2024_Watson_8220307.pdf
+2026-02-19 07:07:34,230 - INFO - Successfully processed 2024_Watson_8220307.pdf
+2026-02-19 07:07:35,592 - WARNING - Could not fully parse header for 2023_Foxx_10059335.pdf
+2026-02-19 07:07:35,593 - INFO - Successfully processed 2023_Foxx_10059335.pdf
+2026-02-19 07:07:35,661 - WARNING - Could not fully parse header for 2024_Bresnahan_30022755.pdf
+2026-02-19 07:07:35,661 - INFO - Successfully processed 2024_Bresnahan_30022755.pdf
+2026-02-19 07:07:35,898 - WARNING - Could not fully parse header for 2024_Baker_10059065.pdf
+2026-02-19 07:07:35,898 - INFO - Successfully processed 2024_Baker_10059065.pdf
+2026-02-19 07:07:36,090 - WARNING - Could not fully parse header for 2024_Washburn_10057712.pdf
+2026-02-19 07:07:36,090 - INFO - Successfully processed 2024_Washburn_10057712.pdf
+2026-02-19 07:07:36,662 - WARNING - Could not fully parse header for 2024_Smith_10068122.pdf
+2026-02-19 07:07:36,663 - INFO - Successfully processed 2024_Smith_10068122.pdf
+2026-02-19 07:07:36,852 - WARNING - Could not fully parse header for 2024_Atkinson_10056839.pdf
+2026-02-19 07:07:36,852 - INFO - Successfully processed 2024_Atkinson_10056839.pdf
+2026-02-19 07:07:37,459 - WARNING - Could not fully parse header for 2024_Liccardo_10067895.pdf
+2026-02-19 07:07:37,460 - INFO - Successfully processed 2024_Liccardo_10067895.pdf
+2026-02-19 07:07:37,463 - WARNING - Could not fully parse header for 2023_Hollingsworth_8219346.pdf
+2026-02-19 07:07:37,463 - INFO - Successfully processed 2023_Hollingsworth_8219346.pdf
+2026-02-19 07:07:37,803 - WARNING - Could not fully parse header for 2023_Anderson_10056503.pdf
+2026-02-19 07:07:37,804 - INFO - Successfully processed 2023_Anderson_10056503.pdf
+2026-02-19 07:07:37,873 - WARNING - Could not fully parse header for 2023_Finstad_30021551.pdf
+2026-02-19 07:07:37,873 - INFO - Successfully processed 2023_Finstad_30021551.pdf
+2026-02-19 07:07:38,096 - WARNING - Could not fully parse header for 2023_Boysko_10056942.pdf
+2026-02-19 07:07:38,096 - INFO - Successfully processed 2023_Boysko_10056942.pdf
+2026-02-19 07:07:38,165 - WARNING - Could not fully parse header for 2023_Scott_30021753.pdf
+2026-02-19 07:07:38,165 - INFO - Successfully processed 2023_Scott_30021753.pdf
