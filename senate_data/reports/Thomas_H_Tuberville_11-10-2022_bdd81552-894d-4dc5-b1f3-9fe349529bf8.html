@@ -1,0 +1,2197 @@
+<!DOCTYPE HTML>
+    <html lang="en">
+        <head>
+            <title>eFD: Print Periodic Transaction Report</title>
+            <meta name="robots" content="noindex">
+            <meta charset="utf-8">
+            <meta content="IE=edge" http-equiv="X-UA-Compatible">
+            <meta content="width=device-width, initial-scale=1" name="viewport">
+
+            
+    <style type="text/css">
+		.txtLogo {display: none;}
+	</style>
+
+
+            
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon" />
+
+
+<link type="text/css" rel="stylesheet" media="all" href="/static/bootstrap-custom/theme-starter-site.css" />
+<link type="text/css" rel="stylesheet" media="all" href="/static/fontawesome/css/font-awesome.min.css" />
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/smoothness/jquery-ui.css">
+
+<link type="text/css" rel="stylesheet" media="all" href="/static/css/main.css" />
+<link type="text/css" rel="stylesheet" media="all" href="/static/css/carousel.css" />
+<link type="text/css" rel="stylesheet" media="print" href="/static/css/print.css" />
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
+
+<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"
+        integrity="sha384-NHtbx1Hf6ctHNdZmU28YfhGjB63gcU1YU64ttM+c0RxMKNBj67j+N/axpqTfdffo"
+        crossorigin="anonymous"></script>
+
+<script src="/static/scripts/popper.min.js" type="text/javascript"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+
+
+
+
+<script src="/static/scripts/jquery/jquery.placeholder.js"></script>
+<script src="/static/scripts/jquery/jquery.dPassword.js"></script>
+<script src="/static/scripts/jquery/modernizr.js"></script>
+<script src="/static/scripts/jquery/jquery.cooke.js"></script>
+<script src="/static/browser-detect.js"></script>
+
+<!-- PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.1.1/pdfobject.js"
+        integrity="sha512-X6sgTijRHjRCltheFlgnf5Lm4NzCXVgfSNAHjHq4G8R03SBUTUVqFllStaiZflC4mEOtaPGRSWvcd3zFSl7eYg==" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function () {
+        if (!Modernizr.input.placeholder) {
+            $('[placeholder]').focus(function () {
+                var input = $(this);
+                if (input.val() == input.attr('placeholder')) {
+                    input.val('');
+                    input.removeClass('placeholder');
+                }
+            }).blur(function () {
+                var input = $(this);
+                if (input.val() == '' || input.val() == input.attr('placeholder')) {
+                    input.addClass('placeholder');
+                    input.val(input.attr('placeholder'));
+                }
+            }).blur();
+            $('[placeholder]').parents('form').submit(function () {
+                $(this).find('[placeholder]').each(function () {
+                    var input = $(this);
+                    if (input.val() == input.attr('placeholder')) {
+                        input.val('');
+                    }
+                })
+            });
+        }
+
+
+        //Popovers
+
+        //Initializes popovers and provides target containers
+        var i = 0;
+        $(document).find('[data-toggle="popover"]').each(function () {
+            ;
+            var popoverCount = 'popover' + i;
+            i++;
+            $(this).parent().addClass(popoverCount);
+            var popoverContainer = '.' + popoverCount;
+            $(this).popover({ container: popoverContainer });
+        });
+
+        //Hides popover if you click/touch away from it
+        $(document).on('click touchstart', function (e) {
+            $('[data-toggle="popover"],[data-original-title]').each(function () {
+                if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                    (($(this).popover('hide').data('bs.popover') || {}).inState || {}).click = false;
+                }
+            });
+        });
+
+        //Hides popover if press Esc
+        $(document).keydown(function (e) {
+            if (e.which === 27 && $(this).has('.popover')) {
+                $('.popover').popover('hide');
+            }
+        });
+
+        //Hides popover if you press close
+        $(document).click(function () {
+            $('button.close').click(function () {
+                $('.popover').popover('hide');
+            });
+        });
+    });
+
+
+</script>
+
+<script>
+    if (window.location.pathname != '/incompatible-browser/') {
+        if (BrowserDetect.browser == "Explorer" && parseInt(BrowserDetect.version, 10) < 11 ||
+            BrowserDetect.browser == "Chrome" && parseInt(BrowserDetect.version, 10) < 36 ||
+            BrowserDetect.browser == "Safari" && parseInt(BrowserDetect.version, 10) < 7 ||
+            BrowserDetect.browser == "Firefox" && parseInt(BrowserDetect.version, 10) < 31) {
+            window.location.replace("/incompatible-browser/");
+        }
+    }
+</script>
+
+            
+
+
+        </head>
+
+        <body>
+            <div class="container-wrap" id="top">
+                <header class="container-fluid d-print-block txtLogo ">
+                    <small>United States Senate</small><br />
+                    Financial Disclosures
+                </header>
+                <nav class="navbar navbar-expand-lg navbar-light fixed-top d-print-none">
+                    <a href="#content" class="sr-only sr-only-focusable" tabindex="0">Skip to main content</a>
+
+                    <div class="navbar-brand" id="x"><img src="/static/images/logo.svg" alt="U.S. Senate Financial Disclosure logo"></div>
+                    <button class="navbar-toggler mr-2" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
+                        
+                            <ul class="navbar-nav" role="navigation">
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="/search/">
+                                        <i class="fa fa-search fa-fw fa-lg" aria-hidden="true"></i>
+                                        Find Reports
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                        
+                        <ul class="navbar-nav justify-content-end accountNav" role="navigation">
+                            
+                        </ul>
+                    </div>
+                </nav>
+                <main class="container-fluid pgContent" id="content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <!--Message Block-->
+                            
+    
+    
+    <div class="alert alert-danger" id="genericErrorMessageDiv" role="alert" aria-live="assertive" aria-relevant="all" style="display:none;">
+       <i class="fa fa-warning" title="Warning" aria-label="Warning"></i> <span id="genericErrorMessage"></span>
+    </div>
+
+                            <!--End Message Block-->
+
+                            
+    <style type="text/css">
+        .navbar-nav  { display:none;}
+    </style>
+    <strong class="d-print-none return-search">
+        Return to the search tab to select another report.
+    </strong>
+    <div class="justify-content-between">
+        <div>
+            <h1 class="mb-2">
+                Periodic Transaction Report
+                
+                    for 11/10/2022
+                
+            </h1>
+
+            <h2 class="filedReport">
+                Mr. Thomas
+                H Tuberville
+                
+                (Tuberville, Tommy)
+            </h2>
+
+            <p class="muted">
+                <strong class="noWrap"><i class="fa fa-folder" aria-hidden="true" title="folder icon"></i> Filed  11/10/2022 @ 2:56 PM</strong>
+            </p>
+        </div>
+        <div>
+            <span class="d-print-none">
+                <a class="btn btn-primary" href="javascript:window.print()"><i class="fa fa-print mr-1"></i>Print Report</a>
+            </span>
+        </div>
+    </div>
+
+    <hr>
+
+    <p>The following statements were checked before filing:</p>
+
+    <div class="mb-4">
+        <label class="form-check-label">
+            <input type="checkbox" name="filing_certified" disabled="disabled" checked="checked" class="form-check-input" />
+            I certify that the statements I have made on this form are true, complete and correct to the best of my knowledge and belief.
+        </label>
+        <label class="form-check-label">
+            <input type="checkbox" name="filing_cannot_be_edited" disabled="disabled" checked="checked" class="form-check-input"/>
+            I understand that reports cannot be edited once filed. To make corrections, I will submit an <em>electronic</em> amendment to this report.
+        </label>
+    </div>
+
+
+	<section class="card">
+        <div class="card-body">
+            <h3 class="d-inline-block">
+                 <i class="fa fa-list mr-1" aria-hidden="true" title="List icon"></i>Transactions
+            </h3>
+            <ul class="unstyled list-inline d-inline-block ml-2">
+                <li class="list-inline-item">(69 transactions total)</li>
+                <li class="list-inline-item">2 Self</li>
+                <li class="list-inline-item">67 Joint</li>
+                <li class="list-inline-item">0 Spouse</li>
+                <li class="list-inline-item">0 Dependent Child</li>
+            </ul>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <caption class="sr-only">List of transactions added to this report</caption>
+                    <thead>
+                        <tr class="header">
+                            <th scope="col">&#35;</th>
+                            <th scope="col">Transaction Date</th>
+                            <th scope="col">Owner</th>
+                            <th scope="col">Ticker</th>
+                            <th scope="col">Asset Name</th>
+                            <th scope="col">Asset Type</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Comment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                            
+                                <tr>
+                                    <td>69</td>
+                                    <td>
+                                        10/28/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=MSFT"
+                                               target="_blank">MSFT</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Microsoft Corporation - Common Stock
+                                        
+                                        
+                                        
+                                            <div class="text-muted">Option Type: Short Sale <br/><em>Strike price:</em> $245.00
+                                                <br>
+                                                <em>Expires:</em> 06/16/2023
+                                            </div>
+                                        
+                                    </td>
+                                    <td>Stock Option</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>68</td>
+                                    <td>
+                                        10/31/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=CLF"
+                                               target="_blank">CLF</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Cleveland-Cliffs Inc. Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$15,001 - $50,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>67</td>
+                                    <td>
+                                        10/28/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=MSFT"
+                                               target="_blank">MSFT</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Microsoft Corporation - Common Stock
+                                        
+                                        
+                                        
+                                            <div class="text-muted">Option Type: Short Sale <br/><em>Strike price:</em> $245.00
+                                                <br>
+                                                <em>Expires:</em> 06/16/2023
+                                            </div>
+                                        
+                                    </td>
+                                    <td>Stock Option</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>66</td>
+                                    <td>
+                                        10/28/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=MSFT"
+                                               target="_blank">MSFT</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Microsoft Corporation - Common Stock
+                                        
+                                        
+                                        
+                                            <div class="text-muted">Option Type: Short Sale <br/><em>Strike price:</em> $245.00
+                                                <br>
+                                                <em>Expires:</em> 06/16/2023
+                                            </div>
+                                        
+                                    </td>
+                                    <td>Stock Option</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>65</td>
+                                    <td>
+                                        10/24/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=MSFT"
+                                               target="_blank">MSFT</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Microsoft Corporation - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$15,001 - $50,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>64</td>
+                                    <td>
+                                        10/13/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=NU"
+                                               target="_blank">NU</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Nu Holdings Ltd. Class A Ordinary Shares
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$15,001 - $50,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>63</td>
+                                    <td>
+                                        10/13/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=MSFT"
+                                               target="_blank">MSFT</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Microsoft Corporation - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$250,001 - $500,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>62</td>
+                                    <td>
+                                        10/11/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=NU"
+                                               target="_blank">NU</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Nu Holdings Ltd. Class A Ordinary Shares
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>61</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=XOM"
+                                               target="_blank">XOM</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Exxon Mobil Corporation Common Stock
+                                        
+                                        
+                                        
+                                            <div class="text-muted">Option Type: Short Sale <br/><em>Strike price:</em> $100.00
+                                                <br>
+                                                <em>Expires:</em> 06/16/2023
+                                            </div>
+                                        
+                                    </td>
+                                    <td>Stock Option</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$15,001 - $50,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>60</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=CVX"
+                                               target="_blank">CVX</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Chevron Corporation Common Stock
+                                        
+                                        
+                                        
+                                            <div class="text-muted">Option Type: Short Sale <br/><em>Strike price:</em> $155.00
+                                                <br>
+                                                <em>Expires:</em> 06/16/2023
+                                            </div>
+                                        
+                                    </td>
+                                    <td>Stock Option</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$15,001 - $50,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>59</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=X"
+                                               target="_blank">X</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            United States Steel Corporation Common Stock
+                                        
+                                        
+                                        
+                                            <div class="text-muted">Option Type: Short Sale <br/><em>Strike price:</em> $20.00
+                                                <br>
+                                                <em>Expires:</em> 06/16/2023
+                                            </div>
+                                        
+                                    </td>
+                                    <td>Stock Option</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>58</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=X"
+                                               target="_blank">X</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            United States Steel Corporation Common Stock
+                                        
+                                        
+                                        
+                                            <div class="text-muted">Option Type: Short Sale <br/><em>Strike price:</em> $20.00
+                                                <br>
+                                                <em>Expires:</em> 06/16/2023
+                                            </div>
+                                        
+                                    </td>
+                                    <td>Stock Option</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$15,001 - $50,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>57</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=NU"
+                                               target="_blank">NU</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Nu Holdings Ltd. Class A Ordinary Shares
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>56</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=VCTR"
+                                               target="_blank">VCTR</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Victory Capital Holdings, Inc. - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>55</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=VCTR"
+                                               target="_blank">VCTR</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Victory Capital Holdings, Inc. - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>54</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=VCTR"
+                                               target="_blank">VCTR</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Victory Capital Holdings, Inc. - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>53</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=VRTX"
+                                               target="_blank">VRTX</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Vertex Pharmaceuticals Incorporated - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>52</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=TREX"
+                                               target="_blank">TREX</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Trex Company, Inc. Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>51</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=SCI"
+                                               target="_blank">SCI</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Service Corporation International Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>50</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=RELX"
+                                               target="_blank">RELX</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            RELX PLC PLC American Depositary Shares (Each repr
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>49</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=RH"
+                                               target="_blank">RH</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            RH Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>48</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=PHM"
+                                               target="_blank">PHM</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            PulteGroup, Inc. Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>47</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=PAYC"
+                                               target="_blank">PAYC</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Paycom Software, Inc. Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>46</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=GIS"
+                                               target="_blank">GIS</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            General Mills, Inc. Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>45</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=GLPI"
+                                               target="_blank">GLPI</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Gaming and Leisure Properties, Inc. - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>44</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=RACE"
+                                               target="_blank">RACE</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Ferrari N.V. Common Shares
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>43</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=XOM"
+                                               target="_blank">XOM</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Exxon Mobil Corporation Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$50,001 - $100,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>42</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=EXR"
+                                               target="_blank">EXR</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Extra Space Storage Inc Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>41</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=ETSY"
+                                               target="_blank">ETSY</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Etsy, Inc. - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>40</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=ELS"
+                                               target="_blank">ELS</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Equity Lifestyle Properties, Inc. Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>39</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=DQ"
+                                               target="_blank">DQ</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            DAQO New Energy Corp. American Depositary Shares,
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>38</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=CROX"
+                                               target="_blank">CROX</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Crocs, Inc. - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>37</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=CSCO"
+                                               target="_blank">CSCO</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Cisco Systems, Inc. - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>36</td>
+                                    <td>
+                                        10/06/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=AMGN"
+                                               target="_blank">AMGN</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Amgen Inc. - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>35</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=AMT"
+                                               target="_blank">AMT</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            American Tower Corporation (REIT) Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>34</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=ZTS"
+                                               target="_blank">ZTS</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Zoetis Inc. Class A Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>33</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=WIT"
+                                               target="_blank">WIT</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Wipro Limited Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>32</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=SEIC"
+                                               target="_blank">SEIC</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            SEI Investments Company - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>31</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=RMD"
+                                               target="_blank">RMD</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            ResMed Inc. Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>30</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=TROW"
+                                               target="_blank">TROW</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            T. Rowe Price Group, Inc. - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>29</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=NOC"
+                                               target="_blank">NOC</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Northrop Grumman Corporation Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>28</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=NVDA"
+                                               target="_blank">NVDA</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            NVIDIA Corporation - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>27</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=MNST"
+                                               target="_blank">MNST</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Monster Beverage Corporation - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>26</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=MSFT"
+                                               target="_blank">MSFT</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Microsoft Corporation - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Partial)</td>
+
+                                    <td>$100,001 - $250,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>25</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=MASI"
+                                               target="_blank">MASI</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Masimo Corporation - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>24</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=MKTX"
+                                               target="_blank">MKTX</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            MarketAxess Holdings, Inc. - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>23</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=IDXX"
+                                               target="_blank">IDXX</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            IDEXX Laboratories, Inc. - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>22</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=HON"
+                                               target="_blank">HON</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Honeywell International Inc. - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>21</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=GGG"
+                                               target="_blank">GGG</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Graco Inc. Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>20</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=IT"
+                                               target="_blank">IT</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Gartner, Inc. Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>19</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=GRMN"
+                                               target="_blank">GRMN</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Garmin Ltd. - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>18</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=FAST"
+                                               target="_blank">FAST</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Fastenal Company - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>17</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=EL"
+                                               target="_blank">EL</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Estee Lauder Companies, Inc. (The) Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>16</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=DHI"
+                                               target="_blank">DHI</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            D.R. Horton, Inc. Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>15</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=CHD"
+                                               target="_blank">CHD</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Church &amp; Dwight Company, Inc. Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>14</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            --
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Brown-Forman Corp Class B
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>13</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=AMAT"
+                                               target="_blank">AMAT</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Applied Materials, Inc. - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>12</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=ALGN"
+                                               target="_blank">ALGN</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Align Technology, Inc. - Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>11</td>
+                                    <td>
+                                        10/05/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=APD"
+                                               target="_blank">APD</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Air Products and Chemicals, Inc. Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>10</td>
+                                    <td>
+                                        10/04/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=MRO"
+                                               target="_blank">MRO</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Marathon Oil Corporation Common Stock
+                                        
+                                        
+                                        
+                                            <div class="text-muted">Option Type: Short Sale <br/><em>Strike price:</em> $23.00
+                                                <br>
+                                                <em>Expires:</em> 04/21/2023
+                                            </div>
+                                        
+                                    </td>
+                                    <td>Stock Option</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>9</td>
+                                    <td>
+                                        10/04/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=OXY"
+                                               target="_blank">OXY</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Occidental Petroleum Corporation Common Stock
+                                        
+                                        
+                                        
+                                            <div class="text-muted">Option Type: Short Sale <br/><em>Strike price:</em> $60.00
+                                                <br>
+                                                <em>Expires:</em> 05/19/2023
+                                            </div>
+                                        
+                                    </td>
+                                    <td>Stock Option</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>8</td>
+                                    <td>
+                                        10/04/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=OXY"
+                                               target="_blank">OXY</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Occidental Petroleum Corporation Common Stock
+                                        
+                                        
+                                        
+                                            <div class="text-muted">Option Type: Short Sale <br/><em>Strike price:</em> $60.00
+                                                <br>
+                                                <em>Expires:</em> 05/19/2023
+                                            </div>
+                                        
+                                    </td>
+                                    <td>Stock Option</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>7</td>
+                                    <td>
+                                        10/04/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=OXY"
+                                               target="_blank">OXY</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Occidental Petroleum Corporation Common Stock
+                                        
+                                        
+                                        
+                                            <div class="text-muted">Option Type: Short Sale <br/><em>Strike price:</em> $60.00
+                                                <br>
+                                                <em>Expires:</em> 05/19/2023
+                                            </div>
+                                        
+                                    </td>
+                                    <td>Stock Option</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>6</td>
+                                    <td>
+                                        10/04/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=OXY"
+                                               target="_blank">OXY</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Occidental Petroleum Corporation Common Stock
+                                        
+                                        
+                                        
+                                            <div class="text-muted">Option Type: Short Sale <br/><em>Strike price:</em> $60.00
+                                                <br>
+                                                <em>Expires:</em> 05/19/2023
+                                            </div>
+                                        
+                                    </td>
+                                    <td>Stock Option</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>5</td>
+                                    <td>
+                                        10/25/2022
+                                    </td>
+                                    <td>Self</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=FTBFX"
+                                               target="_blank">FTBFX</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Fidelity Total Bond
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$15,001 - $50,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>4</td>
+                                    <td>
+                                        10/25/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            --
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Verizon Communications Inc. Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$15,001 - $50,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>3</td>
+                                    <td>
+                                        10/25/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            --
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            SIEGY
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$15,001 - $50,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>2</td>
+                                    <td>
+                                        10/25/2022
+                                    </td>
+                                    <td>Joint</td>
+                                    <td>
+                                        
+                                            <a href="https://finance.yahoo.com/q?s=FDX"
+                                               target="_blank">FDX</a>
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            FedEx Corporation Common Stock
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Stock</td>
+                                    <td>Sale (Full)</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        10/03/2022
+                                    </td>
+                                    <td>Self</td>
+                                    <td>
+                                        
+                                            --
+                                        
+                                        
+                                    </td>
+                                    <td>
+                                        
+                                            Feb 23 CME Cattle
+                                        
+                                        
+                                        
+                                    </td>
+                                    <td>Commodities/Futures Contract</td>
+                                    <td>Purchase</td>
+
+                                    <td>$1,001 - $15,000</td>
+                                    <td>--</td>
+                                </tr>
+                            
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+	</section>
+
+                        </div>
+                    </div>
+                </main>
+
+               <footer id="footer" class="footer d-print-none">
+
+                </footer>
+            </div><!-- end #wrap -->
+        </body>
+    </html>
